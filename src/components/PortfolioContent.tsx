@@ -203,7 +203,7 @@ const PortfolioContent = () => {
         id="gallery"
         ref={galleryRef}
         style={{ y: galleryParallaxY }}
-        initial="hidden"
+        initial={false}
         whileInView="show"
         viewport={{ once: true, amount: 0.18 }}
         variants={sectionReveal}
@@ -215,7 +215,7 @@ const PortfolioContent = () => {
         {isGalleryError ? <p className="mb-6 text-sm text-destructive">Unable to load gallery right now.</p> : null}
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: motionEase }}
@@ -223,7 +223,7 @@ const PortfolioContent = () => {
         >
           {galleryItems.map((item, index) => (
             <motion.article
-              initial="hidden"
+              initial={false}
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}
               variants={cardReveal}

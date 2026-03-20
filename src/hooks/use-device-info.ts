@@ -50,6 +50,7 @@ export function useDeviceInfo(): DeviceInfo {
 }
 
 function getDeviceInfo(): DeviceInfo {
+  const legacyNavigator = navigator as Navigator & { msMaxTouchPoints?: number };
   const userAgent = navigator.userAgent.toLowerCase();
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
@@ -79,7 +80,7 @@ function getDeviceInfo(): DeviceInfo {
   // Capability detection
   const hasTouch =
     typeof window !== "undefined" &&
-    ("ontouchstart" in window || navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0);
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0 || (legacyNavigator.msMaxTouchPoints ?? 0) > 0);
 
   const devicePixelRatio = window.devicePixelRatio || 1;
   const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
