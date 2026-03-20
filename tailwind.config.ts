@@ -5,10 +5,32 @@ export default {
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
+    screens: {
+      // Mobile First Breakpoints
+      xs: "320px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+      // Device-specific
+      "sm-landscape": { raw: "(max-width: 640px) and (orientation: landscape)" },
+      "md-landscape": { raw: "(min-width: 641px) and (max-width: 1024px) and (orientation: landscape)" },
+      "touch": { raw: "(pointer: coarse)" },
+      "no-touch": { raw: "(pointer: fine)" },
+      "dark-mode": { raw: "(prefers-color-scheme: dark)" },
+      "light-mode": { raw: "(prefers-color-scheme: light)" },
+      "reduced-motion": { raw: "(prefers-reduced-motion: reduce)" },
+      "high-contrast": { raw: "(prefers-contrast: more)" },
+    },
     container: {
       center: true,
       padding: "2rem",
       screens: {
+        sm: "100%",
+        md: "728px",
+        lg: "984px",
+        xl: "1240px",
         "2xl": "1400px",
       },
     },
@@ -66,6 +88,12 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      spacing: {
+        "safe-top": "env(safe-area-inset-top)",
+        "safe-bottom": "env(safe-area-inset-bottom)",
+        "safe-left": "env(safe-area-inset-left)",
+        "safe-right": "env(safe-area-inset-right)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -82,5 +110,18 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addUtilities }: { addUtilities: Function }) {
+      addUtilities({
+        ".scrollbar-hide": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+      });
+    },
+  ],
 } satisfies Config;

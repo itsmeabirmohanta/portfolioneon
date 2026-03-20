@@ -11,9 +11,9 @@ const SectionTitle = ({ label }: { label: string }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.55 }}
     transition={{ duration: 0.65, ease: motionEase }}
-    className="mb-8 md:mb-10 lg:mb-12"
+    className="mb-6 sm:mb-8 md:mb-10 lg:mb-12"
   >
-    <p className="text-foreground text-[23px] sm:text-[31px] md:text-[44px] lg:text-[52px] leading-[0.88] tracking-[-0.045em] font-black">
+    <p className="text-foreground text-[20px] sm:text-[28px] md:text-[44px] lg:text-[52px] leading-[1] sm:leading-[0.95] md:leading-[0.88] tracking-[-0.045em] font-black">
       {label}
     </p>
   </motion.div>
@@ -120,7 +120,7 @@ const PortfolioContent = () => {
         whileInView="show"
         viewport={{ once: true, amount: 0.16 }}
         variants={sectionReveal}
-        className="relative mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12 pt-14 md:pt-16 lg:pt-20 overflow-hidden scroll-mt-20"
+        className="relative mx-auto w-full max-w-[1240px] px-4 sm:px-6 md:px-10 lg:px-12 pt-10 sm:pt-12 md:pt-16 lg:pt-20 overflow-hidden scroll-mt-20"
       >
         <motion.div
           style={{ y: featuredGlowLeftY }}
@@ -148,7 +148,7 @@ const PortfolioContent = () => {
               variants={cardReveal}
               custom={index}
               key={project.id}
-              className="group relative grid gap-5 md:grid-cols-12 rounded-[24px] border border-border/55 bg-card/18 p-5 sm:p-6 md:p-7 lg:p-8 transition-all duration-400 hover:-translate-y-1 hover:border-border/85 hover:bg-card/35 hover:shadow-[0_22px_42px_rgba(0,0,0,0.3)]"
+              className="group relative grid gap-4 sm:gap-5 md:grid-cols-12 rounded-[20px] sm:rounded-[24px] border border-border/55 bg-card/18 p-4 sm:p-5 md:p-7 lg:p-8 transition-all duration-400 hover:-translate-y-1 hover:border-border/85 hover:bg-card/35 hover:shadow-[0_22px_42px_rgba(0,0,0,0.3)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.08),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
@@ -159,10 +159,10 @@ const PortfolioContent = () => {
                   </span>
                   <span className="h-px flex-1 bg-border/60" />
                 </div>
-                <h3 className="text-foreground text-[30px] sm:text-[36px] md:text-[44px] lg:text-[50px] leading-[0.9] tracking-[-0.047em] font-black">
+                <h3 className="text-foreground text-[22px] sm:text-[32px] md:text-[44px] lg:text-[50px] leading-[1] sm:leading-[0.95] md:leading-[0.9] tracking-[-0.047em] font-black">
                   {project.title}
                 </h3>
-                <p className="mt-3.5 text-muted-foreground text-[16px] sm:text-[18px] md:text-[20px] leading-[1.32] max-w-[54ch]">
+                <p className="mt-2.5 sm:mt-3.5 text-muted-foreground text-[14px] sm:text-[16px] md:text-[20px] leading-[1.4] sm:leading-[1.36] md:leading-[1.32] max-w-[54ch]">
                   {project.description}
                 </p>
                 <div className="mt-5 flex flex-wrap items-center gap-2.5 text-[12px] sm:text-[13px] md:text-sm">
@@ -185,7 +185,7 @@ const PortfolioContent = () => {
                 </div>
               </div>
 
-              <div className={`${index % 2 === 1 ? "md:col-span-5 md:order-1" : "md:col-span-5"} project-media relative rounded-[18px] overflow-hidden border border-border/60 h-[220px] sm:h-[240px] md:h-[280px] lg:h-[300px]`}>
+              <div className={`${index % 2 === 1 ? "md:col-span-5 md:order-1" : "md:col-span-5"} project-media relative rounded-[16px] sm:rounded-[18px] overflow-hidden border border-border/60 h-[200px] sm:h-[240px] md:h-[280px] lg:h-[300px]`}>
                 <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/35 via-transparent to-transparent" />
                 <SkeletonImage
                   src={project.image}
@@ -207,7 +207,7 @@ const PortfolioContent = () => {
         whileInView="show"
         viewport={{ once: true, amount: 0.18 }}
         variants={sectionReveal}
-        className="mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12 pt-16 md:pt-18 lg:pt-22 scroll-mt-20"
+        className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 md:px-10 lg:px-12 pt-12 sm:pt-14 md:pt-18 lg:pt-22 scroll-mt-20"
       >
         <SectionTitle label="Design Gallery" />
 
@@ -219,7 +219,7 @@ const PortfolioContent = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: motionEase }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5"
         >
           {galleryItems.map((item, index) => (
             <motion.article
@@ -229,7 +229,7 @@ const PortfolioContent = () => {
               variants={cardReveal}
               custom={index}
               key={item.id}
-              className="group rounded-[20px] border border-border/55 bg-card/18 p-3.5 md:p-4 transition-all duration-300 hover:-translate-y-1 hover:border-border/80 hover:bg-card/35 hover:shadow-[0_18px_30px_rgba(0,0,0,0.26)]"
+              className="group rounded-[16px] sm:rounded-[20px] border border-border/55 bg-card/18 p-3 sm:p-3.5 md:p-4 transition-all duration-300 hover:-translate-y-1 hover:border-border/80 hover:bg-card/35 hover:shadow-[0_18px_30px_rgba(0,0,0,0.26)]"
             >
               <div className="overflow-hidden rounded-[14px] border border-border/60 bg-secondary/30">
                 <SkeletonImage
@@ -253,7 +253,7 @@ const PortfolioContent = () => {
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionReveal}
-        className="mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12 pt-16 md:pt-18 lg:pt-22 pb-14 md:pb-16 scroll-mt-20"
+        className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 md:px-10 lg:px-12 pt-12 sm:pt-14 md:pt-18 lg:pt-22 pb-10 sm:pb-12 md:pb-16 scroll-mt-20"
       >
         <SectionTitle label="Let's work together" />
 
@@ -262,7 +262,7 @@ const PortfolioContent = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.6, ease: motionEase }}
-          className="rounded-[24px] border border-border/55 bg-card/18 p-6 sm:p-7 md:p-8"
+          className="rounded-[20px] sm:rounded-[24px] border border-border/55 bg-card/18 p-4 sm:p-6 md:p-8"
         >
           <a
             href="mailto:abirmediagroup@gmail.com"
