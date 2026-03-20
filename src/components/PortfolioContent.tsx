@@ -358,7 +358,7 @@ const PortfolioContent = () => {
                   LinkedIn
                 </a>
                 <a
-                  href="https://abirmahanta.super.site"
+                  href="https://abirmohanta.super.site/"
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-[12px] border border-white/20 bg-white/[0.04] px-3.5 py-3 text-white/85 transition-colors hover:border-white/45 hover:bg-white/[0.1] hover:text-white"
