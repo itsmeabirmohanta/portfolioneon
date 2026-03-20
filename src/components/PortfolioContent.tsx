@@ -255,50 +255,79 @@ const PortfolioContent = () => {
         variants={sectionReveal}
         className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 md:px-10 lg:px-12 pt-12 sm:pt-14 md:pt-18 lg:pt-22 pb-10 sm:pb-12 md:pb-16 scroll-mt-20"
       >
-        <SectionTitle label="Let's work together" />
+        <SectionTitle label="Let's get together" />
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.6, ease: motionEase }}
-          className="rounded-[20px] sm:rounded-[24px] border border-border/55 bg-card/18 p-4 sm:p-6 md:p-8"
+          className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] border border-border/65 bg-gradient-to-br from-card/45 via-card/28 to-secondary/35 p-5 sm:p-7 md:p-9"
         >
-          <a
-            href="mailto:abirmediagroup@gmail.com"
-            className="inline-flex rounded-full border border-border/75 px-4 py-2.5 text-foreground text-[14px] md:text-[15px] transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground hover:bg-foreground hover:text-background"
-          >
-            Get in touch
-          </a>
+          <div className="pointer-events-none absolute -left-24 -top-24 h-60 w-60 rounded-full bg-accent/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-28 right-0 h-72 w-72 rounded-full bg-secondary/55 blur-3xl" />
+          <div className="relative grid gap-6 md:gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <p className="inline-flex items-center rounded-full border border-border/70 bg-background/40 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                Available for freelance + full-time
+              </p>
+              <h3 className="mt-4 text-foreground text-[28px] sm:text-[36px] md:text-[46px] lg:text-[54px] leading-[0.94] tracking-[-0.045em] font-black">
+                Have an idea? Let's turn it into a visual story people remember.
+              </h3>
+              <p className="mt-4 max-w-[58ch] text-[14px] sm:text-[16px] md:text-[18px] leading-[1.45] text-muted-foreground">
+                Share the brief, timeline, and platform. I will reply quickly with a practical direction and a clean execution plan.
+              </p>
 
-          <div className="mt-7 flex flex-wrap gap-4 text-[14px] md:text-[15px]">
-            <a
-              href="/AbirMahanta_Resume.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Resume
-            </a>
-            <a
-              href="https://www.linkedin.com/in/itsmeabirmohanta"
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="https://abirmahanta.super.site"
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Portfolio
-            </a>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <a
+                  href="mailto:abirmediagroup@gmail.com"
+                  className="inline-flex items-center rounded-full border border-foreground/90 bg-foreground px-5 py-2.5 text-[14px] md:text-[15px] font-semibold text-background transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.28)]"
+                >
+                  Start a project
+                </a>
+                <a
+                  href="/AbirMahanta_Resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center rounded-full border border-border/80 bg-background/40 px-5 py-2.5 text-[14px] md:text-[15px] text-foreground transition-colors hover:border-foreground/70 hover:bg-background/75"
+                >
+                  View resume
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="rounded-[18px] border border-border/65 bg-background/45 p-4 sm:p-5 backdrop-blur-sm">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Connect</p>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 text-[14px] md:text-[15px]">
+                  <a
+                    href="mailto:abirmediagroup@gmail.com"
+                    className="rounded-[12px] border border-border/70 bg-card/55 px-3.5 py-2.5 text-foreground transition-colors hover:border-foreground/60"
+                  >
+                    abirmediagroup@gmail.com
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/itsmeabirmohanta"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-[12px] border border-border/70 bg-card/55 px-3.5 py-2.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://abirmahanta.super.site"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-[12px] border border-border/70 bg-card/55 px-3.5 py-2.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
+                  >
+                    Portfolio archive
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <p className="mt-8 text-xs md:text-[13px] text-muted-foreground">© 2024 harshabardhan. All rights reserved.</p>
+          <p className="relative mt-7 text-xs md:text-[13px] text-muted-foreground">© 2026 Abir Mahanta. All rights reserved.</p>
         </motion.div>
       </motion.footer>
     </>
