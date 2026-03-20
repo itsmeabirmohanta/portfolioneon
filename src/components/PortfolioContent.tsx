@@ -167,14 +167,6 @@ const PortfolioContent = () => {
                 </p>
                 <div className="mt-5 flex flex-wrap items-center gap-2.5 text-[12px] sm:text-[13px] md:text-sm">
                   <a
-                    href={project.caseStudyUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded-full border border-border/70 px-3.5 py-1.5 text-foreground transition-colors hover:border-foreground/70 hover:bg-foreground hover:text-background"
-                  >
-                    Read case study
-                  </a>
-                  <a
                     href={project.prototypeUrl}
                     target="_blank"
                     rel="noreferrer"
