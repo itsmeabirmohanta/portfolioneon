@@ -50,9 +50,10 @@ type SkeletonImageProps = {
   alt: string;
   className: string;
   priority?: boolean;
+  onMetadata?: (width: number, height: number) => void;
 };
 
-const SkeletonImage = ({ src, alt, className, priority = false }: SkeletonImageProps) => {
+const SkeletonImage = ({ src, alt, className, priority = false, onMetadata }: SkeletonImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -64,7 +65,13 @@ const SkeletonImage = ({ src, alt, className, priority = false }: SkeletonImageP
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
         decoding="async"
-        onLoad={() => setIsLoaded(true)}
+        onLoad={(event) => {
+          const { naturalWidth, naturalHeight } = event.currentTarget;
+          if (naturalWidth > 0 && naturalHeight > 0) {
+            onMetadata?.(naturalWidth, naturalHeight);
+          }
+          setIsLoaded(true);
+        }}
         onError={() => setIsLoaded(true)}
         className={`${className} transition-[opacity,filter,transform] duration-700 ${
           isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
@@ -77,6 +84,7 @@ const SkeletonImage = ({ src, alt, className, priority = false }: SkeletonImageP
 const PortfolioContent = () => {
   const featuredRef = useRef<HTMLElement | null>(null);
   const galleryRef = useRef<HTMLElement | null>(null);
+  const [galleryImageDims, setGalleryImageDims] = useState<Record<number, { width: number; height: number }>>({});
 
   const {
     data: featuredProjects = [],
@@ -214,27 +222,62 @@ const PortfolioContent = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5"
         >
           {galleryItems.map((item, index) => (
-            <motion.article
-              initial={false}
-              whileInView="show"
-              viewport={{ once: true, amount: 0.25 }}
-              variants={cardReveal}
-              custom={index}
-              key={item.id}
-              className="group rounded-[16px] sm:rounded-[20px] border border-border/55 bg-card/18 p-3 sm:p-3.5 md:p-4 transition-all duration-300 hover:-translate-y-1 hover:border-border/80 hover:bg-card/35 hover:shadow-[0_18px_30px_rgba(0,0,0,0.26)]"
-            >
-              <div className="overflow-hidden rounded-[14px] border border-border/60 bg-secondary/30">
-                <SkeletonImage
-                  src={item.image}
-                  alt={item.title}
-                  className="h-[220px] md:h-[250px] w-full object-cover group-hover:scale-[1.07]"
-                />
-              </div>
-              <h4 className="mt-3 text-foreground text-[19px] sm:text-[21px] leading-[1.05] tracking-[-0.03em] font-bold">
-                {item.title}
-              </h4>
-              <p className="mt-1.5 text-muted-foreground text-[13px] sm:text-sm">{item.year}</p>
-            </motion.article>
+            (() => {
+              const dims = galleryImageDims[item.id];
+              const aspectRatio = dims ? dims.width / dims.height : 1.2;
+
+              return (
+                <motion.article
+                  initial={false}
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.25 }}
+                  variants={cardReveal}
+                  custom={index}
+                  key={item.id}
+                  className="group [perspective:1400px]"
+                >
+                  <div
+                    className="relative h-auto rounded-[16px] sm:rounded-[20px] border border-border/55 transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-hover:-translate-y-1 group-hover:border-border/80 group-hover:shadow-[0_20px_32px_rgba(0,0,0,0.3)]"
+                    style={{
+                      aspectRatio: `${aspectRatio} / 1`,
+                    }}
+                  >
+                    <div className="absolute inset-0 overflow-hidden rounded-[16px] sm:rounded-[20px] [backface-visibility:hidden] bg-card/18">
+                      <div className="h-full w-full overflow-hidden rounded-[16px] sm:rounded-[20px] border border-border/60 bg-secondary/30">
+                        <SkeletonImage
+                          src={item.image}
+                          alt={item.title}
+                          onMetadata={(width, height) => {
+                            setGalleryImageDims((current) => {
+                              if (current[item.id]?.width === width && current[item.id]?.height === height) {
+                                return current;
+                              }
+                              return { ...current, [item.id]: { width, height } };
+                            });
+                          }}
+                          className="h-full w-full object-cover group-hover:scale-[1.08]"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="absolute inset-0 rounded-[16px] sm:rounded-[20px] border border-border/65 bg-[linear-gradient(150deg,rgba(0,0,0,0.78),rgba(17,17,17,0.94))] p-4 sm:p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-between">
+                      <div>
+                        <p className="inline-flex rounded-full border border-border/60 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          Gallery Detail
+                        </p>
+                        <h4 className="mt-3 text-foreground text-[20px] sm:text-[22px] leading-[1.05] tracking-[-0.03em] font-bold">
+                          {item.title}
+                        </h4>
+                      </div>
+                      <div>
+                        <p className="text-[12px] uppercase tracking-[0.14em] text-muted-foreground">Year</p>
+                        <p className="mt-1 text-[16px] sm:text-[18px] text-foreground font-semibold">{item.year}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })()
           ))}
         </motion.div>
       </motion.section>
