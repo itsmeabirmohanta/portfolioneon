@@ -18,44 +18,64 @@ export type DesignGallerySeed = {
 
 export const featuredProjectSeedData: FeaturedProjectSeed[] = [
   {
-    slug: "lead-multimedia-designer",
-    title: "Lead Multimedia Designer",
+    slug: "yashoda-ai-quiz-platform",
+    title: "YASHODA AI Quiz Platform",
     description:
-      "At Future Shift Labs and Yashoda AI, I deliver 20+ multi-channel assets per month and long-form whitepapers, ebooks, and reports with system-driven typography and layout precision.",
-    caseStudyUrl: "https://abirmahanta.super.site",
-    prototypeUrl: "https://www.linkedin.com/in/itsmeabirmohanta",
-    imageUrl: "https://framerusercontent.com/images/qNPfgAxAvktkGOMgx3GR7ScCczU.png",
+      "Developed an interactive quiz platform to support AI literacy programs, featuring structured assessments and user-friendly navigation. Designed to engage learners while enabling scalable evaluation of participant understanding.",
+    caseStudyUrl: "https://quiz.yashoda.live/",
+    prototypeUrl: "https://quiz.yashoda.live/",
+    imageUrl: "/featured_projects/1.jpeg",
     displayOrder: 1,
   },
   {
-    slug: "edu-revolution-portal",
-    title: "EDU Revolution Portal",
+    slug: "investment-dashboard",
+    title: "Investment Dashboard",
     description:
-      "Lead Developer and UI/UX Designer for an LPU achievement platform serving 50,000+ users, built with clear information hierarchy and a full visual identity system.",
-    caseStudyUrl: "https://abirmahanta.super.site",
-    prototypeUrl: "https://www.linkedin.com/in/itsmeabirmohanta",
-    imageUrl: "https://framerusercontent.com/images/m3zQy5JHqbpLMbZJjWK4DeF6Kc8.png",
+      "Built a data-driven investment dashboard that visualizes financial insights through an intuitive interface. Integrated key metrics and structured layouts to help users track and interpret investment performance effectively.",
+    caseStudyUrl: "https://investmentdashboard.abirmahanta.site/",
+    prototypeUrl: "https://investmentdashboard.abirmahanta.site/",
+    imageUrl: "/featured_projects/2.jpeg",
     displayOrder: 2,
+  },
+  {
+    slug: "dr-anand-shukla-portfolio-website",
+    title: "Dr. Anand Shukla Portfolio Website",
+    description:
+      "Designed and developed a professional portfolio website showcasing academic, professional, and thought leadership work. Focused on clean UI, structured content hierarchy, and credibility-driven presentation.",
+    caseStudyUrl: "https://dranandshukla.netlify.app/",
+    prototypeUrl: "https://dranandshukla.netlify.app/",
+    imageUrl: "/featured_projects/3.jpeg",
+    displayOrder: 3,
   },
   {
     slug: "cpu-simulator",
     title: "CPU Simulator",
     description:
-      "Designed and built an interactive 8-bit CPU learning platform with guided and advanced modes, real-time visual instruction flow, and educational onboarding.",
-    caseStudyUrl: "https://cpusimulator.tech",
-    prototypeUrl: "https://cpusimulator.tech",
-    imageUrl: "https://framerusercontent.com/images/PlRys5HhpspLYIcVyyWwuSQiQo4.png",
-    displayOrder: 3,
+      "Developed an interactive web-based CPU simulator that visualizes core computer architecture concepts such as instruction execution and memory operations. Designed to simplify complex low-level processes for learners through an intuitive UI and real-time simulation.",
+    caseStudyUrl: "https://cpusimulator.tech/",
+    prototypeUrl: "https://cpusimulator.tech/",
+    imageUrl: "/featured_projects/4.jpeg",
+    displayOrder: 4,
   },
   {
-    slug: "freelance-design-practice",
-    title: "Freelance Design Practice",
+    slug: "abhaya-indane-website",
+    title: "Abhaya Indane Website",
     description:
-      "Delivered design solutions for 150+ clients across branding, whitepapers, paid ads, social campaigns, and presentation systems with print-ready and digital-first output standards.",
-    caseStudyUrl: "mailto:abirmediagroup@gmail.com",
-    prototypeUrl: "https://abirmahanta.super.site",
-    imageUrl: "https://framerusercontent.com/images/guQ9V5qFnrkrzEI9XQ1DztYdCCc.png",
-    displayOrder: 4,
+      "Built a responsive business website for an LPG distribution service, focusing on accessibility, clear service communication, and streamlined user navigation. Optimized for local users with essential information, contact flows, and trust-building design elements.",
+    caseStudyUrl: "https://abhayaindane.co.in/",
+    prototypeUrl: "https://abhayaindane.co.in/",
+    imageUrl: "/featured_projects/5.jpeg",
+    displayOrder: 5,
+  },
+  {
+    slug: "yashoda-ai-certificate-platform",
+    title: "YASHODA AI Certificate Platform",
+    description:
+      "Created a dynamic certificate generation platform that automates personalized certificate issuance at scale. Implemented user input handling and real-time rendering to support large-scale digital literacy initiatives.",
+    caseStudyUrl: "https://certificate.yashoda.live/",
+    prototypeUrl: "https://certificate.yashoda.live/",
+    imageUrl: "/featured_projects/6.jpeg",
+    displayOrder: 6,
   },
 ];
 

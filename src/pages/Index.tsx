@@ -35,9 +35,10 @@ const Index = () => {
   }, []);
 
   return (
-    <main className="bg-background min-h-screen">
+    <main className="bg-background relative min-h-screen isolate overflow-hidden">
+      <div className="site-grainy-glass-bg" aria-hidden="true" />
       <AnimatePresence>{showLoader ? <SiteLoader /> : null}</AnimatePresence>
-      <div className={showLoader ? "pointer-events-none" : ""}>
+      <div className={`relative z-10 ${showLoader ? "pointer-events-none" : ""}`}>
         <HeroSection />
         <PortfolioContent />
       </div>

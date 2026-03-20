@@ -58,16 +58,16 @@ const SpikyCircle = ({ children, className }: { children: React.ReactNode; class
 /* ── YouTube Recap Card ── */
 const YouTubeCard = () => {
   return (
-    <a href="https://youtube.com/playlist?list=LRYRGhlvsSk8oM2gEzuuyCyYrzeWhFeyV1ThU&si=SZx6xki6dapLiEl3" target="_blank" rel="noopener noreferrer" className="group w-auto max-w-[160px] sm:max-w-none sm:w-[210px] lg:w-[268px] xl:w-[286px] rounded-[16px] sm:rounded-[22px] border border-border/55 bg-card/50 p-2.5 sm:p-4 lg:p-5 transition-all duration-400 hover:-translate-y-1.5 hover:border-border hover:bg-card/70 hover:shadow-[0_18px_30px_rgba(0,0,0,0.32)] inline-block">
-      <div className="flex sm:flex-col gap-2.5 sm:gap-0">
+    <a href="https://youtube.com/playlist?list=LRYRGhlvsSk8oM2gEzuuyCyYrzeWhFeyV1ThU&si=SZx6xki6dapLiEl3" target="_blank" rel="noopener noreferrer" className="group w-[188px] sm:w-[210px] lg:w-[268px] xl:w-[286px] rounded-[14px] sm:rounded-[22px] border border-border/55 bg-card/50 p-2 sm:p-4 lg:p-5 transition-all duration-400 hover:-translate-y-1.5 hover:border-border hover:bg-card/70 hover:shadow-[0_18px_30px_rgba(0,0,0,0.32)] inline-block">
+      <div className="flex sm:flex-col items-center sm:items-start gap-2 sm:gap-0">
         {/* Image */}
-        <div className="relative w-[72px] h-[72px] sm:w-[98px] sm:h-[98px] lg:w-[104px] lg:h-[104px] flex-shrink-0 rounded-[12px] sm:rounded-2xl overflow-hidden border border-border/60">
+        <div className="relative w-[58px] h-[58px] sm:w-[98px] sm:h-[98px] lg:w-[104px] lg:h-[104px] flex-shrink-0 rounded-[10px] sm:rounded-2xl overflow-hidden border border-border/60">
           <img src="/YEARLY_REVIEW_2025_V2_544x544.png" alt="2025 recap artwork" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
         </div>
         {/* Text */}
-        <div className="flex-1 sm:flex-none sm:mt-3 lg:mt-4 flex flex-col justify-center sm:justify-start">
-          <p className="text-foreground text-[18px] sm:text-[28px] lg:text-[30px] leading-none font-black tracking-tight">'25</p>
-          <p className="text-foreground font-semibold text-[14px] sm:text-[28px] lg:text-[30px] leading-tight tracking-tight sm:leading-none">YouTube<br className="sm:hidden" /> Recap</p>
+        <div className="flex-1 min-w-0 sm:flex-none sm:mt-3 lg:mt-4 flex flex-col justify-center sm:justify-start">
+          <p className="text-foreground text-[16px] sm:text-[28px] lg:text-[30px] leading-none font-black tracking-tight">'25</p>
+          <p className="text-foreground font-semibold text-[12px] sm:text-[28px] lg:text-[30px] leading-tight tracking-tight sm:leading-none whitespace-nowrap">YouTube Recap</p>
           <p className="text-muted-foreground text-[10px] sm:text-[13px] lg:text-sm leading-relaxed mt-1.5 sm:mt-2 lg:mt-3 hidden sm:block">
             Good vibes, relaxation &<br />groovy tempos
           </p>
@@ -132,7 +132,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] lg:min-h-[92vh] bg-background overflow-x-clip overflow-y-hidden">
+    <section className="relative min-h-[90vh] lg:min-h-[92vh] overflow-x-clip overflow-y-hidden">
       <div className="mx-auto w-full max-w-[1300px] px-4 sm:px-6 md:px-10 lg:px-12 py-5 sm:py-6 md:py-7 lg:py-7">
         {/* Top name */}
         <p className="text-foreground text-center font-bold text-[20px] sm:text-[26px] md:text-[28px] lg:text-[34px] tracking-[-0.04em] leading-none animate-hero-fade-up">
@@ -194,7 +194,7 @@ const HeroSection = () => {
         </div>
 
         {/* Bottom content */}
-        <div className="mt-2 sm:mt-4 md:mt-3 lg:mt-4 pb-8 sm:pb-10 md:pb-12 lg:pb-10 animate-hero-fade-up-slow">
+        <div className="mt-6 sm:mt-8 md:mt-3 lg:mt-4 pb-8 sm:pb-10 md:pb-12 lg:pb-10 animate-hero-fade-up-slow">
           <div className="flex flex-col md:grid md:grid-cols-[minmax(190px,224px)_minmax(300px,1fr)_minmax(210px,260px)] gap-6 sm:gap-8 md:gap-7 lg:gap-8 items-center md:items-end">
             {/* Left: YouTube Recap Card */}
             <div className="flex justify-center md:justify-start w-full md:w-auto">
@@ -205,10 +205,10 @@ const HeroSection = () => {
             <div className="flex items-center justify-center w-full md:w-auto md:-translate-y-10 lg:-translate-y-14">
               <div className="text-center max-w-[560px] px-2 sm:px-4 md:px-0">
                 <p className="text-muted-foreground text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] leading-[1.4] sm:leading-[1.32] lg:leading-[1.26] tracking-[-0.01em]">
-                  Hi! I'm Abir, a Graphic Designer crafting brand visuals, social campaigns, and long-form design systems across digital and print.
+                  Hi, I'm Abir, a designer and developer working at the intersection of visual design and product thinking.
                 </p>
                 <p className="text-muted-foreground text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] leading-[1.4] sm:leading-[1.32] lg:leading-[1.26] tracking-[-0.01em] mt-2.5 sm:mt-3 md:mt-3 lg:mt-4">
-                  I also build UI/UX products like CPU Simulator and EDU Revolution.
+                  I create brand systems, social campaigns, and UI/UX products like CPU Simulator, focusing on usability, clarity, and real-world impact.
                 </p>
               </div>
             </div>

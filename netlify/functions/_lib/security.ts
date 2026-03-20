@@ -33,10 +33,12 @@ const SECURITY_HEADERS: Record<string, string> = {
 };
 
 const parseAllowedOrigins = (): string[] => {
-  const raw = process.env.CORS_ALLOWLIST ?? "";
+  const raw =
+    (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env
+      ?.CORS_ALLOWLIST ?? "";
   return raw
     .split(",")
-    .map((item) => item.trim())
+    .map((item: string) => item.trim())
     .filter(Boolean);
 };
 

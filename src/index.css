@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
+    --background: 0 0% 1%;
     --foreground: 0 0% 100%;
 
     --card: 0 0% 8%;
@@ -61,6 +61,62 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--hero-font);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+}
+
+.site-grainy-glass-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 18% 16%, hsla(0, 0%, 100%, 0.028) 0%, transparent 38%),
+    radial-gradient(circle at 86% 20%, hsla(0, 0%, 100%, 0.018) 0%, transparent 34%),
+    radial-gradient(circle at 58% 82%, hsla(0, 0%, 100%, 0.014) 0%, transparent 46%),
+    linear-gradient(112deg, transparent 18%, hsla(0, 0%, 100%, 0.028) 44%, transparent 72%),
+    linear-gradient(180deg, hsla(0, 0%, 0%, 0.985), hsla(0, 0%, 0%, 1));
+  backdrop-filter: blur(30px) saturate(94%) contrast(116%);
+  -webkit-backdrop-filter: blur(30px) saturate(94%) contrast(116%);
+  border-top: 1px solid hsla(0, 0%, 100%, 0.04);
+}
+
+.site-grainy-glass-bg::before,
+.site-grainy-glass-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.site-grainy-glass-bg::before {
+  opacity: 0.14;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 12% 22%, hsla(0, 0%, 100%, 0.42) 0.6px, transparent 0.95px),
+    radial-gradient(circle at 76% 32%, hsla(0, 0%, 100%, 0.28) 0.7px, transparent 1.05px),
+    radial-gradient(circle at 34% 74%, hsla(0, 0%, 100%, 0.24) 0.7px, transparent 1.05px),
+    radial-gradient(circle at 1px 1px, hsla(0, 0%, 100%, 0.1) 0.6px, transparent 0.9px);
+  background-size: cover, cover, cover, 3px 3px;
+}
+
+.site-grainy-glass-bg::after {
+  opacity: 0.34;
+  background:
+    linear-gradient(112deg, transparent 20%, hsla(0, 0%, 100%, 0.075) 46%, transparent 74%),
+    linear-gradient(292deg, transparent 36%, hsla(0, 0%, 100%, 0.04) 54%, transparent 78%),
+    linear-gradient(180deg, hsla(0, 0%, 0%, 0.7), hsla(0, 0%, 0%, 0.84));
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .site-grainy-glass-bg {
+    background:
+      radial-gradient(circle at 18% 16%, hsla(0, 0%, 100%, 0.02) 0%, transparent 38%),
+      radial-gradient(circle at 86% 20%, hsla(0, 0%, 100%, 0.016) 0%, transparent 34%),
+      radial-gradient(circle at 58% 82%, hsla(0, 0%, 100%, 0.012) 0%, transparent 46%),
+      linear-gradient(112deg, transparent 20%, hsla(0, 0%, 100%, 0.02) 44%, transparent 72%),
+      linear-gradient(180deg, hsla(0, 0%, 0%, 0.985), hsla(0, 0%, 0%, 1));
   }
 }
 
@@ -215,6 +271,18 @@
     animation: none !important;
     background-image: none !important;
     background-color: hsla(var(--muted), 0.35);
+  }
+}
+
+@media (max-width: 640px) {
+  .site-grainy-glass-bg {
+    backdrop-filter: blur(18px) saturate(120%) contrast(106%);
+    -webkit-backdrop-filter: blur(18px) saturate(120%) contrast(106%);
+  }
+
+  .site-grainy-glass-bg::before {
+    opacity: 0.22;
+    background-size: cover, cover, cover, 2.5px 2.5px;
   }
 }
 

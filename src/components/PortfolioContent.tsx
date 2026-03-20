@@ -254,26 +254,29 @@ const PortfolioContent = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.6, ease: motionEase }}
-          className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] border border-border/65 bg-gradient-to-br from-card/45 via-card/28 to-secondary/35 p-5 sm:p-7 md:p-9"
+          className="relative overflow-hidden rounded-[24px] sm:rounded-[30px] md:rounded-[34px] border border-white/15 bg-[linear-gradient(145deg,rgba(255,255,255,0.09),rgba(255,255,255,0.02)),linear-gradient(180deg,rgba(0,0,0,0.76),rgba(0,0,0,0.9))] p-4 sm:p-6 md:p-8 lg:p-10 backdrop-blur-xl"
         >
-          <div className="pointer-events-none absolute -left-24 -top-24 h-60 w-60 rounded-full bg-accent/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-28 right-0 h-72 w-72 rounded-full bg-secondary/55 blur-3xl" />
-          <div className="relative grid gap-6 md:gap-8 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <p className="inline-flex items-center rounded-full border border-border/70 bg-background/40 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.14)_0,transparent_42%),radial-gradient(circle_at_80%_72%,rgba(255,255,255,0.08)_0,transparent_40%)]" />
+          <div className="pointer-events-none absolute inset-0 opacity-30 mix-blend-screen bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.24)_0.7px,transparent_0.9px)] bg-[size:3px_3px]" />
+
+          <div className="relative grid gap-4 sm:gap-5 md:gap-6 lg:grid-cols-12">
+            <div className="lg:col-span-7 rounded-[18px] sm:rounded-[22px] border border-white/15 bg-white/[0.03] p-4 sm:p-5 md:p-6 lg:p-7">
+              <p className="inline-flex w-full sm:w-auto items-center justify-center text-center rounded-full border border-white/20 bg-black/35 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] md:text-[11px] leading-tight uppercase tracking-[0.14em] sm:tracking-[0.18em] text-white/80">
                 Available for freelance + full-time
               </p>
-              <h3 className="mt-4 text-foreground text-[28px] sm:text-[36px] md:text-[46px] lg:text-[54px] leading-[0.94] tracking-[-0.045em] font-black">
+
+              <h3 className="mt-4 text-foreground text-[25px] sm:text-[34px] md:text-[42px] lg:text-[52px] leading-[0.94] tracking-[-0.045em] font-black text-balance">
                 Have an idea? Let's turn it into a visual story people remember.
               </h3>
-              <p className="mt-4 max-w-[58ch] text-[14px] sm:text-[16px] md:text-[18px] leading-[1.45] text-muted-foreground">
+
+              <p className="mt-3.5 max-w-[56ch] text-[14px] sm:text-[15px] md:text-[17px] leading-[1.45] text-white/74">
                 Share the brief, timeline, and platform. I will reply quickly with a practical direction and a clean execution plan.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-5 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 max-w-[560px]">
                 <a
                   href="mailto:abirmediagroup@gmail.com"
-                  className="inline-flex items-center rounded-full border border-foreground/90 bg-foreground px-5 py-2.5 text-[14px] md:text-[15px] font-semibold text-background transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.28)]"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-white/80 bg-white px-5 py-3 text-[14px] md:text-[15px] font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-[0_12px_24px_rgba(0,0,0,0.34)]"
                 >
                   Start a project
                 </a>
@@ -281,45 +284,67 @@ const PortfolioContent = () => {
                   href="/AbirMahanta_Resume.pdf"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center rounded-full border border-border/80 bg-background/40 px-5 py-2.5 text-[14px] md:text-[15px] text-foreground transition-colors hover:border-foreground/70 hover:bg-background/75"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-white/30 bg-white/[0.05] px-5 py-3 text-[14px] md:text-[15px] text-white transition-colors hover:border-white/55 hover:bg-white/[0.12]"
                 >
                   View resume
                 </a>
               </div>
+
+              <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] sm:text-[12px] tracking-[0.04em] text-white/70">
+                <span className="rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-center">Branding</span>
+                <span className="rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-center">Social Creative</span>
+                <span className="rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-center col-span-2 sm:col-span-1">UI/UX Systems</span>
+              </div>
             </div>
 
-            <div className="lg:col-span-5">
-              <div className="rounded-[18px] border border-border/65 bg-background/45 p-4 sm:p-5 backdrop-blur-sm">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Connect</p>
-                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 text-[14px] md:text-[15px]">
-                  <a
-                    href="mailto:abirmediagroup@gmail.com"
-                    className="rounded-[12px] border border-border/70 bg-card/55 px-3.5 py-2.5 text-foreground transition-colors hover:border-foreground/60"
-                  >
-                    abirmediagroup@gmail.com
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/itsmeabirmohanta"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded-[12px] border border-border/70 bg-card/55 px-3.5 py-2.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href="https://abirmahanta.super.site"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded-[12px] border border-border/70 bg-card/55 px-3.5 py-2.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
-                  >
-                    Portfolio archive
-                  </a>
+            <div className="lg:col-span-5 rounded-[18px] sm:rounded-[22px] border border-white/15 bg-black/35 p-4 sm:p-5 md:p-6 backdrop-blur-md">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/70">Connect</p>
+              <div className="mt-3 grid grid-cols-1 gap-2.5 text-[14px] md:text-[15px]">
+                <a
+                  href="mailto:abirmediagroup@gmail.com"
+                  className="rounded-[12px] border border-white/20 bg-white/[0.04] px-3.5 py-3 text-white transition-colors hover:border-white/45 hover:bg-white/[0.1]"
+                >
+                  abirmediagroup@gmail.com
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/itsmeabirmohanta"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-[12px] border border-white/20 bg-white/[0.04] px-3.5 py-3 text-white/85 transition-colors hover:border-white/45 hover:bg-white/[0.1] hover:text-white"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://abirmahanta.super.site"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-[12px] border border-white/20 bg-white/[0.04] px-3.5 py-3 text-white/85 transition-colors hover:border-white/45 hover:bg-white/[0.1] hover:text-white"
+                >
+                  Portfolio archive
+                </a>
+              </div>
+
+              <div className="mt-4 sm:mt-5 rounded-[14px] border border-white/15 bg-black/45 px-3.5 py-3">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/60">Response window</p>
+                <p className="mt-1.5 text-[14px] sm:text-[15px] text-white">Usually within 24 hours</p>
+              </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <div className="rounded-[12px] border border-white/15 bg-black/30 px-3 py-2.5">
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">Location</p>
+                  <p className="mt-1 text-[13px] text-white/85">India</p>
+                </div>
+                <div className="rounded-[12px] border border-white/15 bg-black/30 px-3 py-2.5">
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">Timezone</p>
+                  <p className="mt-1 text-[13px] text-white/85">IST (UTC+5:30)</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <p className="relative mt-7 text-xs md:text-[13px] text-muted-foreground">© 2026 Abir Mahanta. All rights reserved.</p>
+          <p className="relative mt-5 sm:mt-6 md:mt-7 text-[11px] md:text-[13px] text-white/58">
+            © 2026 Abir Mahanta. All rights reserved.
+          </p>
         </motion.div>
       </motion.footer>
     </>
