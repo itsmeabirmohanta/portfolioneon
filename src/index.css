@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 4%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 330 100% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 100%;
+
+    --radius: 1rem;
+
+    --hero-font: 'Inter', sans-serif;
+
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--hero-font);
+  }
+}
+
+@layer utilities {
+  @keyframes hero-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes drift-y {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  @keyframes pulse-soft {
+    0% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: 180% 0;
+    }
+    100% {
+      background-position: -40% 0;
+    }
+  }
+
+  @keyframes pill-wiggle {
+    0% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-2deg);
+    }
+    40% {
+      transform: rotate(2deg);
+    }
+    60% {
+      transform: rotate(-1.6deg);
+    }
+    80% {
+      transform: rotate(1.6deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  .animate-hero-fade-up {
+    animation: hero-fade-up 700ms ease-out both;
+  }
+
+  .animate-hero-fade-up-delayed {
+    animation: hero-fade-up 850ms ease-out both;
+  }
+
+  .animate-hero-fade-up-slow {
+    animation: hero-fade-up 1000ms ease-out both;
+  }
+
+  .animate-hero-spin-slow {
+    animation: hero-spin-slow 20s linear infinite;
+  }
+
+  .animate-drift-y {
+    animation: drift-y 8s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 5.5s ease-in-out infinite;
+  }
+
+  .animate-skeleton-shimmer {
+    background-image: linear-gradient(
+      110deg,
+      hsla(var(--muted), 0.32) 20%,
+      hsla(var(--muted-foreground), 0.22) 38%,
+      hsla(var(--muted), 0.32) 56%
+    );
+    background-size: 220% 100%;
+    animation: skeleton-shimmer 1.15s linear infinite;
+  }
+
+  .hero-pill:hover {
+    animation: pill-wiggle 420ms ease-in-out;
+    transform-origin: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-skeleton-shimmer {
+    animation: none !important;
+    background-image: none !important;
+    background-color: hsla(var(--muted), 0.35);
+  }
+}

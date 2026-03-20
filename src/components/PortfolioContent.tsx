@@ -1,0 +1,308 @@
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { fetchFeaturedProjects, fetchGalleryItems } from "@/lib/portfolio-api";
+
+const motionEase = [0.22, 1, 0.36, 1] as const;
+
+const SectionTitle = ({ label }: { label: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 22 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.55 }}
+    transition={{ duration: 0.65, ease: motionEase }}
+    className="mb-8 md:mb-10 lg:mb-12"
+  >
+    <p className="text-foreground text-[23px] sm:text-[31px] md:text-[44px] lg:text-[52px] leading-[0.88] tracking-[-0.045em] font-black">
+      {label}
+    </p>
+  </motion.div>
+);
+
+const cardReveal = {
+  hidden: { opacity: 0, y: 28, scale: 0.985 },
+  show: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      delay: index * 0.08,
+      ease: motionEase,
+    },
+  }),
+};
+
+const sectionReveal = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: motionEase,
+    },
+  },
+};
+
+type SkeletonImageProps = {
+  src: string;
+  alt: string;
+  className: string;
+  priority?: boolean;
+};
+
+const SkeletonImage = ({ src, alt, className, priority = false }: SkeletonImageProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="relative h-full w-full bg-secondary/35">
+      {!isLoaded ? <div className="absolute inset-0 animate-skeleton-shimmer" /> : null}
+      <img
+        src={src}
+        alt={alt}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        decoding="async"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setIsLoaded(true)}
+        className={`${className} transition-[opacity,filter,transform] duration-700 ${
+          isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+        }`}
+      />
+    </div>
+  );
+};
+
+const PortfolioContent = () => {
+  const featuredRef = useRef<HTMLElement | null>(null);
+  const galleryRef = useRef<HTMLElement | null>(null);
+
+  const {
+    data: featuredProjects = [],
+    isLoading: isFeaturedLoading,
+    isError: isFeaturedError,
+  } = useQuery({
+    queryKey: ["featured-projects"],
+    queryFn: fetchFeaturedProjects,
+  });
+
+  const {
+    data: galleryItems = [],
+    isLoading: isGalleryLoading,
+    isError: isGalleryError,
+  } = useQuery({
+    queryKey: ["design-gallery"],
+    queryFn: fetchGalleryItems,
+  });
+
+  const { scrollYProgress: featuredProgress } = useScroll({
+    target: featuredRef,
+    offset: ["start end", "end start"],
+  });
+  const { scrollYProgress: galleryProgress } = useScroll({
+    target: galleryRef,
+    offset: ["start end", "end start"],
+  });
+
+  const featuredParallaxY = useTransform(featuredProgress, [0, 1], [26, -26]);
+  const featuredGlowLeftY = useTransform(featuredProgress, [0, 1], [0, -44]);
+  const featuredGlowRightY = useTransform(featuredProgress, [0, 1], [0, 54]);
+  const galleryParallaxY = useTransform(galleryProgress, [0, 1], [18, -18]);
+
+  return (
+    <>
+      <motion.section
+        id="featured"
+        ref={featuredRef}
+        style={{ y: featuredParallaxY }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.16 }}
+        variants={sectionReveal}
+        className="relative mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12 pt-14 md:pt-16 lg:pt-20 overflow-hidden scroll-mt-20"
+      >
+        <motion.div
+          style={{ y: featuredGlowLeftY }}
+          className="pointer-events-none absolute -left-20 top-20 h-48 w-48 rounded-full bg-accent/10 blur-3xl animate-pulse-soft"
+        />
+        <motion.div
+          style={{ y: featuredGlowRightY }}
+          className="pointer-events-none absolute -right-16 top-1/3 h-56 w-56 rounded-full bg-secondary/40 blur-3xl animate-drift-y"
+        />
+        <SectionTitle label="Featured work" />
+
+        {isFeaturedLoading ? (
+          <p className="mb-6 text-sm text-muted-foreground">Loading featured projects...</p>
+        ) : null}
+        {isFeaturedError ? (
+          <p className="mb-6 text-sm text-destructive">Unable to load featured projects right now.</p>
+        ) : null}
+
+        <div className="grid gap-4 md:gap-5 lg:gap-6">
+          {featuredProjects.map((project, index) => (
+            <motion.article
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.28 }}
+              variants={cardReveal}
+              custom={index}
+              key={project.id}
+              className="group relative grid gap-5 md:grid-cols-12 rounded-[24px] border border-border/55 bg-card/18 p-5 sm:p-6 md:p-7 lg:p-8 transition-all duration-400 hover:-translate-y-1 hover:border-border/85 hover:bg-card/35 hover:shadow-[0_22px_42px_rgba(0,0,0,0.3)]"
+            >
+              <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.08),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+              <div className={`${index % 2 === 1 ? "md:col-span-7 md:order-2" : "md:col-span-7"} relative`}>
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="rounded-full border border-border/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    Featured Project
+                  </span>
+                  <span className="h-px flex-1 bg-border/60" />
+                </div>
+                <h3 className="text-foreground text-[30px] sm:text-[36px] md:text-[44px] lg:text-[50px] leading-[0.9] tracking-[-0.047em] font-black">
+                  {project.title}
+                </h3>
+                <p className="mt-3.5 text-muted-foreground text-[16px] sm:text-[18px] md:text-[20px] leading-[1.32] max-w-[54ch]">
+                  {project.description}
+                </p>
+                <div className="mt-5 flex flex-wrap items-center gap-2.5 text-[12px] sm:text-[13px] md:text-sm">
+                  <a
+                    href={project.caseStudyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full border border-border/70 px-3.5 py-1.5 text-foreground transition-colors hover:border-foreground/70 hover:bg-foreground hover:text-background"
+                  >
+                    Read case study
+                  </a>
+                  <a
+                    href={project.prototypeUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full border border-border/70 px-3.5 py-1.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
+                  >
+                    View prototype
+                  </a>
+                </div>
+              </div>
+
+              <div className={`${index % 2 === 1 ? "md:col-span-5 md:order-1" : "md:col-span-5"} project-media relative rounded-[18px] overflow-hidden border border-border/60 h-[220px] sm:h-[240px] md:h-[280px] lg:h-[300px]`}>
+                <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/35 via-transparent to-transparent" />
+                <SkeletonImage
+                  src={project.image}
+                  alt={project.title}
+                  priority={index === 0}
+                  className="w-full h-full object-cover group-hover:scale-105"
+                />
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </motion.section>
+
+      <motion.section
+        id="gallery"
+        ref={galleryRef}
+        style={{ y: galleryParallaxY }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.18 }}
+        variants={sectionReveal}
+        className="mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12 pt-16 md:pt-18 lg:pt-22 scroll-mt-20"
+      >
+        <SectionTitle label="Design Gallery" />
+
+        {isGalleryLoading ? <p className="mb-6 text-sm text-muted-foreground">Loading gallery...</p> : null}
+        {isGalleryError ? <p className="mb-6 text-sm text-destructive">Unable to load gallery right now.</p> : null}
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: motionEase }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+        >
+          {galleryItems.map((item, index) => (
+            <motion.article
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+              variants={cardReveal}
+              custom={index}
+              key={item.id}
+              className="group rounded-[20px] border border-border/55 bg-card/18 p-3.5 md:p-4 transition-all duration-300 hover:-translate-y-1 hover:border-border/80 hover:bg-card/35 hover:shadow-[0_18px_30px_rgba(0,0,0,0.26)]"
+            >
+              <div className="overflow-hidden rounded-[14px] border border-border/60 bg-secondary/30">
+                <SkeletonImage
+                  src={item.image}
+                  alt={item.title}
+                  className="h-[220px] md:h-[250px] w-full object-cover group-hover:scale-[1.07]"
+                />
+              </div>
+              <h4 className="mt-3 text-foreground text-[19px] sm:text-[21px] leading-[1.05] tracking-[-0.03em] font-bold">
+                {item.title}
+              </h4>
+              <p className="mt-1.5 text-muted-foreground text-[13px] sm:text-sm">{item.year}</p>
+            </motion.article>
+          ))}
+        </motion.div>
+      </motion.section>
+
+      <motion.footer
+        id="contact"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionReveal}
+        className="mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12 pt-16 md:pt-18 lg:pt-22 pb-14 md:pb-16 scroll-mt-20"
+      >
+        <SectionTitle label="Let's work together" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.6, ease: motionEase }}
+          className="rounded-[24px] border border-border/55 bg-card/18 p-6 sm:p-7 md:p-8"
+        >
+          <a
+            href="mailto:abirmediagroup@gmail.com"
+            className="inline-flex rounded-full border border-border/75 px-4 py-2.5 text-foreground text-[14px] md:text-[15px] transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground hover:bg-foreground hover:text-background"
+          >
+            Get in touch
+          </a>
+
+          <div className="mt-7 flex flex-wrap gap-4 text-[14px] md:text-[15px]">
+            <a
+              href="/AbirMahanta_Resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Resume
+            </a>
+            <a
+              href="https://www.linkedin.com/in/itsmeabirmohanta"
+              target="_blank"
+              rel="noreferrer"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://abirmahanta.super.site"
+              target="_blank"
+              rel="noreferrer"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Portfolio
+            </a>
+          </div>
+
+          <p className="mt-8 text-xs md:text-[13px] text-muted-foreground">© 2024 harshabardhan. All rights reserved.</p>
+        </motion.div>
+      </motion.footer>
+    </>
+  );
+};
+
+export default PortfolioContent;
