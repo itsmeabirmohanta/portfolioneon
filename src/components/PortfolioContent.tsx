@@ -170,7 +170,7 @@ const PortfolioContent = () => {
                     href={project.prototypeUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-full border border-border/70 px-3.5 py-1.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
+                    className="inline-flex items-center justify-center text-center rounded-full border border-border/70 px-3.5 py-1.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
                   >
                     View prototype
                   </a>
