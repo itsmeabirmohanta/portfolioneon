@@ -35,19 +35,33 @@ const extractYouTubeVideoId = (url: string): string | null => {
   return null;
 };
 
+const toYouTubeEmbedUrl = (url: string): string => {
+  const id = extractYouTubeVideoId(url);
+  if (!id) {
+    return url;
+  }
+
+  return `https://www.youtube.com/embed/${id}`;
+};
+
 export const enrichChannelVideosWithYouTubeMetadata = async (
   videos: ChannelVideoBase[],
   apiKey: string | undefined,
 ): Promise<ChannelVideoWithMetadata[]> => {
+  const normalizedVideos = videos.map((video) => ({
+    ...video,
+    embedUrl: toYouTubeEmbedUrl(video.embedUrl),
+  }));
+
   if (!apiKey) {
-    return videos.map((video) => ({
+    return normalizedVideos.map((video) => ({
       ...video,
       description: "",
     }));
   }
 
   const videoIdByEmbed = new Map<string, string>();
-  const ids = videos
+  const ids = normalizedVideos
     .map((video) => {
       const id = extractYouTubeVideoId(video.embedUrl);
       if (id) {
@@ -58,7 +72,7 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
     .filter((id): id is string => Boolean(id));
 
   if (ids.length === 0) {
-    return videos.map((video) => ({
+    return normalizedVideos.map((video) => ({
       ...video,
       description: "",
     }));
@@ -73,7 +87,7 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
   try {
     const response = await fetch(endpoint.toString());
     if (!response.ok) {
-      return videos.map((video) => ({
+      return normalizedVideos.map((video) => ({
         ...video,
         description: "",
       }));
@@ -97,7 +111,7 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
       });
     }
 
-    return videos.map((video) => {
+    return normalizedVideos.map((video) => {
       const id = videoIdByEmbed.get(video.embedUrl);
       const metadata = id ? metadataById.get(id) : undefined;
 
@@ -108,7 +122,7 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
       };
     });
   } catch {
-    return videos.map((video) => ({
+    return normalizedVideos.map((video) => ({
       ...video,
       description: "",
     }));
