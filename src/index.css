@@ -67,6 +67,199 @@
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: none !important;
+  }
+}
+
+.fun-cursor {
+  --cursor-color: hsla(0, 0%, 100%, 0.86);
+  --cursor-accent: hsla(330, 96%, 70%, 0.82);
+  --cursor-bg: hsla(0, 0%, 100%, 0.06);
+  --cursor-size: 34px;
+  --cursor-scale: 1;
+  --cursor-dot-size: 5px;
+  --cursor-ring-tilt: 0deg;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 120;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.fun-cursor.is-visible {
+  opacity: 1;
+}
+
+.fun-cursor-ring,
+.fun-cursor-dot,
+.fun-cursor-spark,
+.fun-cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.fun-cursor-ring {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 999px;
+  border: 1px solid var(--cursor-color);
+  background:
+    radial-gradient(circle at 25% 25%, hsla(0, 0%, 100%, 0.2), transparent 45%),
+    linear-gradient(140deg, hsla(0, 0%, 100%, 0.08), var(--cursor-bg));
+  box-shadow:
+    0 0 0 1px hsla(0, 0%, 100%, 0.11) inset,
+    0 10px 30px hsla(0, 0%, 0%, 0.35),
+    0 0 26px hsla(0, 0%, 100%, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%) scale(var(--cursor-scale)) rotate(var(--cursor-ring-tilt));
+  transition: width 220ms ease, height 220ms ease, border-radius 220ms ease, border-color 220ms ease, background 220ms ease, box-shadow 220ms ease;
+}
+
+.fun-cursor-dot {
+  width: var(--cursor-dot-size);
+  height: var(--cursor-dot-size);
+  border-radius: 999px;
+  background: var(--cursor-accent);
+  box-shadow: 0 0 18px hsla(330, 96%, 70%, 0.48);
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  transition: width 180ms ease, height 180ms ease, background 220ms ease;
+}
+
+.fun-cursor-spark {
+  width: calc(var(--cursor-size) + 22px);
+  height: calc(var(--cursor-size) + 22px);
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+}
+
+.fun-cursor-spark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid hsla(0, 0%, 100%, 0.24);
+  opacity: 0.28;
+  animation: cursor-breathe 2.4s ease-in-out infinite;
+}
+
+.fun-cursor-label {
+  padding: 0.26rem 0.5rem;
+  border-radius: 7px;
+  border: 1px solid hsla(0, 0%, 100%, 0.18);
+  background: linear-gradient(150deg, hsla(0, 0%, 11%, 0.95), hsla(0, 0%, 4%, 0.9));
+  color: hsla(0, 0%, 100%, 0.9);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 8px 22px hsla(0, 0%, 0%, 0.5);
+  transition: transform 180ms ease, background 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+.fun-cursor.mode-link {
+  --cursor-color: hsla(0, 0%, 100%, 0.95);
+  --cursor-accent: hsla(195, 92%, 72%, 0.9);
+  --cursor-bg: hsla(195, 92%, 72%, 0.1);
+  --cursor-size: 45px;
+  --cursor-scale: 1.04;
+  --cursor-dot-size: 6px;
+}
+
+.fun-cursor.mode-button {
+  --cursor-color: hsla(0, 0%, 100%, 0.94);
+  --cursor-accent: hsla(330, 96%, 72%, 0.9);
+  --cursor-bg: hsla(330, 96%, 72%, 0.12);
+  --cursor-size: 48px;
+  --cursor-scale: 1.06;
+  --cursor-dot-size: 6px;
+}
+
+.fun-cursor.mode-media {
+  --cursor-color: hsla(0, 0%, 100%, 0.98);
+  --cursor-accent: hsla(45, 94%, 75%, 0.92);
+  --cursor-bg: hsla(45, 94%, 75%, 0.11);
+  --cursor-size: 52px;
+  --cursor-scale: 1.1;
+  --cursor-dot-size: 6px;
+}
+
+.fun-cursor.mode-text {
+  --cursor-color: hsla(0, 0%, 100%, 0.75);
+  --cursor-accent: hsla(0, 0%, 100%, 0.6);
+  --cursor-bg: hsla(0, 0%, 100%, 0.04);
+  --cursor-size: 24px;
+  --cursor-scale: 0.92;
+  --cursor-dot-size: 4px;
+}
+
+.fun-cursor.mode-card {
+  --cursor-color: hsla(0, 0%, 100%, 0.92);
+  --cursor-accent: hsla(330, 96%, 70%, 0.88);
+  --cursor-bg: hsla(0, 0%, 100%, 0.07);
+  --cursor-size: 58px;
+  --cursor-scale: 1.12;
+  --cursor-dot-size: 5px;
+}
+
+.fun-cursor.mode-input {
+  --cursor-color: hsla(0, 0%, 100%, 0.85);
+  --cursor-accent: hsla(0, 0%, 100%, 0.95);
+  --cursor-bg: hsla(0, 0%, 100%, 0.05);
+  --cursor-size: 20px;
+  --cursor-scale: 0.84;
+  --cursor-dot-size: 4px;
+}
+
+.fun-cursor.mode-input .fun-cursor-label {
+  background: hsla(0, 0%, 94%, 0.96);
+  color: hsla(0, 0%, 8%, 0.9);
+}
+
+.fun-cursor.is-clicking .fun-cursor-ring {
+  border-color: var(--cursor-accent);
+  box-shadow:
+    0 0 0 1px hsla(0, 0%, 100%, 0.2) inset,
+    0 12px 30px hsla(0, 0%, 0%, 0.45),
+    0 0 34px hsla(330, 96%, 70%, 0.24);
+}
+
+.fun-cursor.is-clicking .fun-cursor-dot {
+  width: 7px;
+  height: 7px;
+  box-shadow: 0 0 22px hsla(330, 96%, 70%, 0.64);
+}
+
+.fun-cursor.is-clicking .fun-cursor-spark {
+  filter: brightness(1.25);
+}
+
+.fun-cursor.is-clicking .fun-cursor-spark::before {
+  opacity: 0.6;
+  animation-duration: 1.2s;
+}
+
+@keyframes cursor-breathe {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.18;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.92);
+    opacity: 0.18;
+  }
+}
+
 .site-grainy-glass-bg {
   position: fixed;
   inset: 0;
@@ -258,6 +451,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .fun-cursor {
+    display: none !important;
+  }
+
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: auto !important;
+  }
+
   *,
   *::before,
   *::after {

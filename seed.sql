@@ -25,6 +25,17 @@ CREATE TABLE IF NOT EXISTS design_gallery (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS channel_videos (
+  id SERIAL PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  embed_url TEXT NOT NULL,
+  display_order INTEGER NOT NULL DEFAULT 0,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- Insert Data for featured_projects
 INSERT INTO featured_projects (slug, title, description, case_study_url, prototype_url, image_url, display_order, is_active, updated_at)
 VALUES 
@@ -54,3 +65,23 @@ VALUES
 ('airline-fare-families-cleartrip', 'Introducing Airline Fare Families on Cleartrip', '2023', 'https://framerusercontent.com/images/f7XxQn2y493zwpVxv1cgHlKp4.png?scale-down-to=512', 12, TRUE, NOW())
 ON CONFLICT (slug) DO UPDATE SET 
   title = EXCLUDED.title, year_label = EXCLUDED.year_label, image_url = EXCLUDED.image_url, display_order = EXCLUDED.display_order, is_active = TRUE, updated_at = NOW();
+
+-- Insert Data for channel_videos
+UPDATE channel_videos
+SET is_active = FALSE,
+    updated_at = NOW();
+
+INSERT INTO channel_videos (slug, title, embed_url, display_order, is_active, updated_at)
+VALUES
+('video-obc7-u1x7nc', 'Channel Video 01', 'https://www.youtube.com/embed/OBc7-u1X7Nc', 1, TRUE, NOW()),
+('video-fe5rg6ebbya', 'Channel Video 02', 'https://www.youtube.com/embed/fE5rg6EBbYA', 2, TRUE, NOW()),
+('video-bgzjlawbnuq', 'Channel Video 03', 'https://www.youtube.com/embed/bGZjlawBnuQ', 3, TRUE, NOW()),
+('video-xvxc79dssmi', 'Channel Video 04', 'https://www.youtube.com/embed/xVxC79dSSmI', 4, TRUE, NOW()),
+('video-7m8cj7ei3s', 'Channel Video 05', 'https://www.youtube.com/embed/-7M8cJ7EI3s', 5, TRUE, NOW()),
+('video-dphapjuydvc', 'Channel Video 06', 'https://www.youtube.com/embed/DPhAPJUYdVc', 6, TRUE, NOW())
+ON CONFLICT (slug) DO UPDATE SET
+  title = EXCLUDED.title,
+  embed_url = EXCLUDED.embed_url,
+  display_order = EXCLUDED.display_order,
+  is_active = TRUE,
+  updated_at = NOW();

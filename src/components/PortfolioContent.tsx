@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { fetchFeaturedProjects, fetchGalleryItems } from "@/lib/portfolio-api";
+import { fetchChannelVideos, fetchFeaturedProjects, fetchGalleryItems } from "@/lib/portfolio-api";
 
 const motionEase = [0.22, 1, 0.36, 1] as const;
 
@@ -83,6 +83,7 @@ const SkeletonImage = ({ src, alt, className, priority = false, onMetadata }: Sk
 
 const PortfolioContent = () => {
   const featuredRef = useRef<HTMLElement | null>(null);
+  const videosRef = useRef<HTMLElement | null>(null);
   const galleryRef = useRef<HTMLElement | null>(null);
   const [galleryImageDims, setGalleryImageDims] = useState<Record<number, { width: number; height: number }>>({});
 
@@ -104,6 +105,15 @@ const PortfolioContent = () => {
     queryFn: fetchGalleryItems,
   });
 
+  const {
+    data: channelVideos = [],
+    isLoading: isVideosLoading,
+    isError: isVideosError,
+  } = useQuery({
+    queryKey: ["channel-videos"],
+    queryFn: fetchChannelVideos,
+  });
+
   const { scrollYProgress: featuredProgress } = useScroll({
     target: featuredRef,
     offset: ["start end", "end start"],
@@ -112,10 +122,15 @@ const PortfolioContent = () => {
     target: galleryRef,
     offset: ["start end", "end start"],
   });
+  const { scrollYProgress: videosProgress } = useScroll({
+    target: videosRef,
+    offset: ["start end", "end start"],
+  });
 
   const featuredParallaxY = useTransform(featuredProgress, [0, 1], [26, -26]);
   const featuredGlowLeftY = useTransform(featuredProgress, [0, 1], [0, -44]);
   const featuredGlowRightY = useTransform(featuredProgress, [0, 1], [0, 54]);
+  const videosParallaxY = useTransform(videosProgress, [0, 1], [14, -14]);
   const galleryParallaxY = useTransform(galleryProgress, [0, 1], [18, -18]);
 
   return (
@@ -197,6 +212,84 @@ const PortfolioContent = () => {
             </motion.article>
           ))}
         </div>
+      </motion.section>
+
+      <motion.section
+        id="videos"
+        ref={videosRef}
+        style={{ y: videosParallaxY }}
+        initial={false}
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionReveal}
+        className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 md:px-10 lg:px-12 pt-12 sm:pt-14 md:pt-18 lg:pt-22 scroll-mt-20"
+      >
+        <SectionTitle label="Channel Videos" />
+
+        {isVideosLoading ? <p className="mb-6 text-sm text-muted-foreground">Loading videos...</p> : null}
+        {isVideosError ? <p className="mb-6 text-sm text-destructive">Unable to load videos right now.</p> : null}
+
+        <motion.div
+          initial={false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: motionEase }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
+        >
+          {channelVideos.map((video, index) => (
+            <motion.article
+              initial={false}
+              whileInView="show"
+              viewport={{ once: true, amount: 0.28 }}
+              variants={cardReveal}
+              custom={index}
+              key={video.id}
+              className="group relative overflow-hidden rounded-[18px] sm:rounded-[22px] border border-border/55 bg-card/18 p-3 sm:p-4 transition-all duration-400 hover:-translate-y-1 hover:border-border/80 hover:bg-card/30 hover:shadow-[0_20px_36px_rgba(0,0,0,0.34)]"
+            >
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(255,255,255,0.08),transparent_52%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+              <div className="relative mb-3 flex items-center gap-2">
+                <span className="rounded-full border border-border/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                  YouTube
+                </span>
+                <span className="h-px flex-1 bg-border/60" />
+              </div>
+
+              <h4 className="relative text-foreground text-[18px] sm:text-[20px] leading-[1.06] tracking-[-0.03em] font-bold">
+                {video.title}
+              </h4>
+
+              {video.description ? (
+                <p className="relative mt-2 text-[12px] sm:text-[13px] leading-[1.45] text-muted-foreground">
+                  {video.description.length > 170
+                    ? `${video.description.slice(0, 170).trim()}...`
+                    : video.description}
+                </p>
+              ) : null}
+
+              <div className="relative mt-3 overflow-hidden rounded-[14px] border border-border/60 bg-black/40 aspect-video">
+                <iframe
+                  src={video.embedUrl}
+                  title={video.title}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="h-full w-full"
+                />
+              </div>
+
+              <a
+                href="https://www.youtube.com/@itsmeabirmohanta"
+                target="_blank"
+                rel="noreferrer"
+                className="relative mt-3 inline-flex items-center justify-center rounded-full border border-border/70 px-3.5 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
+              >
+                Open channel
+              </a>
+            </motion.article>
+          ))}
+        </motion.div>
       </motion.section>
 
       <motion.section

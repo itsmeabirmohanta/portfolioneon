@@ -16,6 +16,13 @@ export type DesignGallerySeed = {
   displayOrder: number;
 };
 
+export type ChannelVideoSeed = {
+  slug: string;
+  title: string;
+  embedUrl: string;
+  displayOrder: number;
+};
+
 export const featuredProjectSeedData: FeaturedProjectSeed[] = [
   {
     slug: "yashoda-ai-quiz-platform",
@@ -163,5 +170,44 @@ export const designGallerySeedData: DesignGallerySeed[] = [
     year: "2023",
     imageUrl: "https://framerusercontent.com/images/f7XxQn2y493zwpVxv1cgHlKp4.png?scale-down-to=512",
     displayOrder: 12,
+  },
+];
+
+export const channelVideoSeedData: ChannelVideoSeed[] = [
+  {
+    slug: "video-obc7-u1x7nc",
+    title: "Channel Video 01",
+    embedUrl: "https://www.youtube.com/embed/OBc7-u1X7Nc",
+    displayOrder: 1,
+  },
+  {
+    slug: "video-fe5rg6ebbya",
+    title: "Channel Video 02",
+    embedUrl: "https://www.youtube.com/embed/fE5rg6EBbYA",
+    displayOrder: 2,
+  },
+  {
+    slug: "video-bgzjlawbnuq",
+    title: "Channel Video 03",
+    embedUrl: "https://www.youtube.com/embed/bGZjlawBnuQ",
+    displayOrder: 3,
+  },
+  {
+    slug: "video-xvxc79dssmi",
+    title: "Channel Video 04",
+    embedUrl: "https://www.youtube.com/embed/xVxC79dSSmI",
+    displayOrder: 4,
+  },
+  {
+    slug: "video-7m8cj7ei3s",
+    title: "Channel Video 05",
+    embedUrl: "https://www.youtube.com/embed/-7M8cJ7EI3s",
+    displayOrder: 5,
+  },
+  {
+    slug: "video-dphapjuydvc",
+    title: "Channel Video 06",
+    embedUrl: "https://www.youtube.com/embed/DPhAPJUYdVc",
+    displayOrder: 6,
   },
 ];

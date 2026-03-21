@@ -183,12 +183,18 @@ const HeroSection = () => {
                 &
               </span>
 
-              <div className="hero-pill group flex items-center gap-2 sm:gap-2.5 lg:gap-5 rounded-full border border-border/55 bg-card/20 px-3.5 sm:px-5 md:px-9 lg:px-13 py-2 sm:py-2.5 lg:py-3.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] transition-all duration-400 hover:border-muted-foreground/50 hover:bg-card/35 hover:shadow-[0_16px_28px_rgba(0,0,0,0.35),inset_0_0_0_1px_rgba(255,255,255,0.08)]">
+              <a
+                href="https://www.youtube.com/@itsmeabirmohanta"
+                target="_blank"
+                rel="noreferrer"
+                className="hero-pill group flex items-center gap-2 sm:gap-2.5 lg:gap-5 rounded-full border border-border/55 bg-card/20 px-3.5 sm:px-5 md:px-9 lg:px-13 py-2 sm:py-2.5 lg:py-3.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] transition-all duration-400 hover:border-muted-foreground/50 hover:bg-card/35 hover:shadow-[0_16px_28px_rgba(0,0,0,0.35),inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+                aria-label="Open Abir Mahanta YouTube channel"
+              >
                 <span className="text-foreground font-black text-[48px] sm:text-[76px] md:text-[116px] lg:text-[138px] xl:text-[152px] leading-[0.82] tracking-[-0.05em] select-none">
                   Chill
                 </span>
                 <PlayButton />
-              </div>
+              </a>
             </div>
           </div>
         </div>

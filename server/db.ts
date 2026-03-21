@@ -1,5 +1,6 @@
 import type { NeonQueryFunction } from "@neondatabase/serverless";
 import {
+  channelVideoSeedData,
   designGallerySeedData,
   featuredProjectSeedData,
 } from "./data/portfolio-seed-data";
@@ -28,6 +29,19 @@ const createTables = async (sql: NeonQueryFunction<false, false>) => {
       title TEXT NOT NULL,
       year_label TEXT NOT NULL,
       image_url TEXT NOT NULL,
+      display_order INTEGER NOT NULL DEFAULT 0,
+      is_active BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS channel_videos (
+      id SERIAL PRIMARY KEY,
+      slug TEXT UNIQUE NOT NULL,
+      title TEXT NOT NULL,
+      embed_url TEXT NOT NULL,
       display_order INTEGER NOT NULL DEFAULT 0,
       is_active BOOLEAN NOT NULL DEFAULT TRUE,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -106,6 +120,40 @@ export const seedPortfolioTables = async (sql: NeonQueryFunction<false, false>) 
         updated_at = NOW();
     `;
   }
+
+  await sql`
+    UPDATE channel_videos
+    SET is_active = FALSE,
+        updated_at = NOW();
+  `;
+
+  for (const video of channelVideoSeedData) {
+    await sql`
+      INSERT INTO channel_videos (
+        slug,
+        title,
+        embed_url,
+        display_order,
+        is_active,
+        updated_at
+      )
+      VALUES (
+        ${video.slug},
+        ${video.title},
+        ${video.embedUrl},
+        ${video.displayOrder},
+        TRUE,
+        NOW()
+      )
+      ON CONFLICT (slug)
+      DO UPDATE SET
+        title = EXCLUDED.title,
+        embed_url = EXCLUDED.embed_url,
+        display_order = EXCLUDED.display_order,
+        is_active = TRUE,
+        updated_at = NOW();
+    `;
+  }
 };
 
 export type FeaturedProjectRow = {
@@ -122,6 +170,12 @@ export type DesignGalleryRow = {
   title: string;
   year_label: string;
   image_url: string;
+};
+
+export type ChannelVideoRow = {
+  id: number;
+  title: string;
+  embed_url: string;
 };
 
 export const getFeaturedProjects = async (sql: NeonQueryFunction<false, false>) => {
@@ -144,4 +198,15 @@ export const getDesignGallery = async (sql: NeonQueryFunction<false, false>) => 
   `;
 
   return rows as DesignGalleryRow[];
+};
+
+export const getChannelVideos = async (sql: NeonQueryFunction<false, false>) => {
+  const rows = await sql`
+    SELECT id, title, embed_url
+    FROM channel_videos
+    WHERE is_active = TRUE
+    ORDER BY display_order ASC, id ASC;
+  `;
+
+  return rows as ChannelVideoRow[];
 };

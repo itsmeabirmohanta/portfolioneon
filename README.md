@@ -118,6 +118,7 @@ Configured in server/index.ts:
 | API_PORT | No | Express API port (default 8787) |
 | CORS_ALLOWLIST | Recommended | Comma-separated allowed browser origins |
 | SEED_API_KEY | Required in production Express deployments | Secret for /api/seed endpoint |
+| YOUTUBE_API_KEY | Recommended | YouTube Data API v3 key used to auto-fetch video titles and descriptions |
 
 Example CORS_ALLOWLIST:
 

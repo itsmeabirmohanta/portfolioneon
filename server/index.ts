@@ -5,11 +5,13 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import hpp from "hpp";
 import {
+  getChannelVideos,
   getDesignGallery,
   getFeaturedProjects,
   seedPortfolioTables,
 } from "./db";
 import { getNeonSqlClient } from "./neon";
+import { enrichChannelVideosWithYouTubeMetadata } from "./youtube";
 
 dotenv.config();
 
@@ -133,6 +135,33 @@ app.get("/api/design-gallery", async (_req, res) => {
   } catch (error) {
     console.error("Failed to fetch design gallery", error);
     res.status(500).json({ message: "Failed to fetch design gallery" });
+  }
+});
+
+app.get("/api/channel-videos", async (_req, res) => {
+  try {
+    const sql = getNeonSqlClient();
+    const videos = await getChannelVideos(sql);
+    const enrichedVideos = await enrichChannelVideosWithYouTubeMetadata(
+      videos.map((video) => ({
+        id: video.id,
+        title: video.title,
+        embedUrl: video.embed_url,
+      })),
+      process.env.YOUTUBE_API_KEY,
+    );
+
+    res.json(
+      enrichedVideos.map((video) => ({
+        id: video.id,
+        title: video.title,
+        description: video.description,
+        embedUrl: video.embedUrl,
+      })),
+    );
+  } catch (error) {
+    console.error("Failed to fetch channel videos", error);
+    res.status(500).json({ message: "Failed to fetch channel videos" });
   }
 });
 
