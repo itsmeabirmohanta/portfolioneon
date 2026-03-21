@@ -86,6 +86,7 @@ const PortfolioContent = () => {
   const videosRef = useRef<HTMLElement | null>(null);
   const galleryRef = useRef<HTMLElement | null>(null);
   const [galleryImageDims, setGalleryImageDims] = useState<Record<number, { width: number; height: number }>>({});
+  const [activeVideoPlayers, setActiveVideoPlayers] = useState<Record<number, boolean>>({});
 
   const {
     data: featuredProjects = [],
@@ -249,21 +250,50 @@ const PortfolioContent = () => {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(255,255,255,0.08),transparent_52%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
               <div className="relative mt-3 overflow-hidden rounded-[14px] border border-border/60 bg-black/40 aspect-video">
-                <iframe
-                  src={video.embedUrl}
-                  title={video.title}
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  className="h-full w-full"
-                />
+                {activeVideoPlayers[video.id] ? (
+                  <iframe
+                    src={`${video.embedUrl}?autoplay=1&rel=0&modestbranding=1`}
+                    title={video.title}
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    className="h-full w-full"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveVideoPlayers((current) => ({ ...current, [video.id]: true }));
+                    }}
+                    className="relative h-full w-full overflow-hidden"
+                    aria-label={`Play ${video.title}`}
+                  >
+                    <img
+                      src={video.thumbnailUrl}
+                      alt={video.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-black/25" />
+                    <div className="pointer-events-none absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/15 backdrop-blur-md flex items-center justify-center shadow-[0_14px_24px_rgba(0,0,0,0.4)]">
+                      <svg viewBox="0 0 24 24" className="h-6 w-6 text-white fill-current translate-x-[1px]" aria-hidden="true">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </button>
+                )}
               </div>
 
               <div className="relative mt-3 rounded-[12px] border border-border/45 bg-black/20 px-3 py-2.5 sm:px-3.5 sm:py-3">
                 <h4 className="text-foreground text-[15px] sm:text-[16px] leading-[1.35] font-semibold tracking-[-0.01em] break-words whitespace-normal">
                   {video.title}
                 </h4>
+                {video.channelName ? (
+                  <p className="mt-1 text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-muted-foreground/90">
+                    {video.channelName}
+                  </p>
+                ) : null}
               </div>
 
               <a

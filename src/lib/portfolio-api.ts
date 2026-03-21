@@ -18,6 +18,8 @@ export type ChannelVideo = {
   id: number;
   title: string;
   description: string;
+  channelName: string;
+  thumbnailUrl: string;
   embedUrl: string;
 };
 

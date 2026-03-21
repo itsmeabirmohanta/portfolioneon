@@ -156,6 +156,8 @@ app.get("/api/channel-videos", async (_req, res) => {
         id: video.id,
         title: video.title,
         description: video.description,
+        channelName: video.channelName,
+        thumbnailUrl: video.thumbnailUrl,
         embedUrl: video.embedUrl,
       })),
     );

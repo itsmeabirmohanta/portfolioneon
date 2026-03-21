@@ -44,6 +44,8 @@ export const handler: Handler = secureJsonHandler(
         id: video.id,
         title: video.title,
         description: video.description,
+        channelName: video.channelName,
+        thumbnailUrl: video.thumbnailUrl,
         embedUrl: video.embedUrl,
       }));
 

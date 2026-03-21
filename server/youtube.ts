@@ -6,6 +6,8 @@ export type ChannelVideoBase = {
 
 export type ChannelVideoWithMetadata = ChannelVideoBase & {
   description: string;
+  channelName: string;
+  thumbnailUrl: string;
 };
 
 const extractYouTubeVideoId = (url: string): string | null => {
@@ -44,6 +46,71 @@ const toYouTubeEmbedUrl = (url: string): string => {
   return `https://www.youtube.com/embed/${id}`;
 };
 
+const toYouTubeWatchUrl = (url: string): string => {
+  const id = extractYouTubeVideoId(url);
+  if (!id) {
+    return url;
+  }
+
+  return `https://www.youtube.com/watch?v=${id}`;
+};
+
+const toYouTubeThumbnailUrl = (url: string): string => {
+  const id = extractYouTubeVideoId(url);
+  if (!id) {
+    return "";
+  }
+
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+};
+
+const enrichViaOEmbed = async (videos: ChannelVideoBase[]): Promise<ChannelVideoWithMetadata[]> => {
+  const enriched = await Promise.all(
+    videos.map(async (video) => {
+      const watchUrl = toYouTubeWatchUrl(video.embedUrl);
+
+      try {
+        const endpoint = new URL("https://www.youtube.com/oembed");
+        endpoint.searchParams.set("url", watchUrl);
+        endpoint.searchParams.set("format", "json");
+
+        const response = await fetch(endpoint.toString());
+        if (!response.ok) {
+          return {
+            ...video,
+            description: "",
+            channelName: "",
+            thumbnailUrl: toYouTubeThumbnailUrl(video.embedUrl),
+          };
+        }
+
+        const payload = (await response.json()) as {
+          title?: string;
+          author_name?: string;
+          thumbnail_url?: string;
+        };
+
+        return {
+          ...video,
+          title: payload.title?.trim() || video.title,
+          description: "",
+          channelName: payload.author_name?.trim() || "",
+          thumbnailUrl: payload.thumbnail_url?.trim() || toYouTubeThumbnailUrl(video.embedUrl),
+        };
+      } catch {
+        return {
+          ...video,
+          description: "",
+          channelName: "",
+          thumbnailUrl: toYouTubeThumbnailUrl(video.embedUrl),
+        };
+      }
+    }),
+  );
+
+  return enriched;
+};
+
 export const enrichChannelVideosWithYouTubeMetadata = async (
   videos: ChannelVideoBase[],
   apiKey: string | undefined,
@@ -54,10 +121,7 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
   }));
 
   if (!apiKey) {
-    return normalizedVideos.map((video) => ({
-      ...video,
-      description: "",
-    }));
+    return enrichViaOEmbed(normalizedVideos);
   }
 
   const videoIdByEmbed = new Map<string, string>();
@@ -87,10 +151,7 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
   try {
     const response = await fetch(endpoint.toString());
     if (!response.ok) {
-      return normalizedVideos.map((video) => ({
-        ...video,
-        description: "",
-      }));
+      return enrichViaOEmbed(normalizedVideos);
     }
 
     const payload = (await response.json()) as {
@@ -99,15 +160,17 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
         snippet?: {
           title?: string;
           description?: string;
+          channelTitle?: string;
         };
       }>;
     };
 
-    const metadataById = new Map<string, { title?: string; description?: string }>();
+    const metadataById = new Map<string, { title?: string; description?: string; channelName?: string }>();
     for (const item of payload.items ?? []) {
       metadataById.set(item.id, {
         title: item.snippet?.title,
         description: item.snippet?.description,
+        channelName: item.snippet?.channelTitle,
       });
     }
 
@@ -119,12 +182,11 @@ export const enrichChannelVideosWithYouTubeMetadata = async (
         ...video,
         title: metadata?.title?.trim() || video.title,
         description: metadata?.description?.trim() || "",
+        channelName: metadata?.channelName?.trim() || "",
+        thumbnailUrl: toYouTubeThumbnailUrl(video.embedUrl),
       };
     });
   } catch {
-    return normalizedVideos.map((video) => ({
-      ...video,
-      description: "",
-    }));
+    return enrichViaOEmbed(normalizedVideos);
   }
 };
