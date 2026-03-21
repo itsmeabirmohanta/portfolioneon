@@ -248,25 +248,6 @@ const PortfolioContent = () => {
             >
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(255,255,255,0.08),transparent_52%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-              <div className="relative mb-3 flex items-center gap-2">
-                <span className="rounded-full border border-border/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                  YouTube
-                </span>
-                <span className="h-px flex-1 bg-border/60" />
-              </div>
-
-              <h4 className="relative text-foreground text-[18px] sm:text-[20px] leading-[1.06] tracking-[-0.03em] font-bold">
-                {video.title}
-              </h4>
-
-              {video.description ? (
-                <p className="relative mt-2 text-[12px] sm:text-[13px] leading-[1.45] text-muted-foreground">
-                  {video.description.length > 170
-                    ? `${video.description.slice(0, 170).trim()}...`
-                    : video.description}
-                </p>
-              ) : null}
-
               <div className="relative mt-3 overflow-hidden rounded-[14px] border border-border/60 bg-black/40 aspect-video">
                 <iframe
                   src={video.embedUrl}
@@ -277,6 +258,12 @@ const PortfolioContent = () => {
                   referrerPolicy="strict-origin-when-cross-origin"
                   className="h-full w-full"
                 />
+              </div>
+
+              <div className="relative mt-3 rounded-[12px] border border-border/45 bg-black/20 px-3 py-2.5 sm:px-3.5 sm:py-3">
+                <h4 className="text-foreground text-[15px] sm:text-[16px] leading-[1.35] font-semibold tracking-[-0.01em] break-words whitespace-normal">
+                  {video.title}
+                </h4>
               </div>
 
               <a
