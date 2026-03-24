@@ -8,6 +8,7 @@ export default {
     screens: {
       // Mobile First Breakpoints
       xs: "320px",
+      ms: "460px",
       sm: "640px",
       md: "768px",
       lg: "1024px",

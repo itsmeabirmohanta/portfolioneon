@@ -176,17 +176,17 @@ const PortfolioContent = () => {
             >
               <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.08),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-              <div className={`${index % 2 === 1 ? "md:col-span-7 md:order-2" : "md:col-span-7"} relative`}>
+              <div className={`${index % 2 === 1 ? "md:col-span-7 md:order-2" : "md:col-span-7"} relative min-w-0`}>
                 <div className="mb-4 flex items-center gap-2">
                   <span className="rounded-full border border-border/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                     Featured Project
                   </span>
                   <span className="h-px flex-1 bg-border/60" />
                 </div>
-                <h3 className="text-foreground text-[22px] sm:text-[32px] md:text-[44px] lg:text-[50px] leading-[1] sm:leading-[0.95] md:leading-[0.9] tracking-[-0.047em] font-black">
+                <h3 className="text-foreground text-[22px] sm:text-[32px] md:text-[44px] lg:text-[50px] leading-[1] sm:leading-[0.95] md:leading-[0.9] tracking-[-0.047em] font-black break-words">
                   {project.title}
                 </h3>
-                <p className="mt-2.5 sm:mt-3.5 text-muted-foreground text-[14px] sm:text-[16px] md:text-[20px] leading-[1.4] sm:leading-[1.36] md:leading-[1.32] max-w-[54ch]">
+                <p className="mt-2.5 sm:mt-3.5 text-muted-foreground text-[14px] sm:text-[16px] md:text-[20px] leading-[1.4] sm:leading-[1.36] md:leading-[1.32] max-w-[54ch] break-words">
                   {project.description}
                 </p>
                 <div className="mt-5 flex flex-wrap items-center gap-2.5 text-[12px] sm:text-[13px] md:text-sm">
@@ -285,12 +285,12 @@ const PortfolioContent = () => {
                 )}
               </div>
 
-              <div className="relative mt-3 rounded-[12px] border border-border/45 bg-black/20 px-3 py-2.5 sm:px-3.5 sm:py-3">
+              <div className="relative mt-3 min-w-0 rounded-[12px] border border-border/45 bg-black/20 px-3 py-2.5 sm:px-3.5 sm:py-3">
                 <h4 className="text-foreground text-[15px] sm:text-[16px] leading-[1.35] font-semibold tracking-[-0.01em] break-words whitespace-normal">
                   {video.title}
                 </h4>
                 {video.channelName ? (
-                  <p className="mt-1 text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-muted-foreground/90">
+                  <p className="mt-1 break-words text-[11px] sm:text-[12px] uppercase tracking-[0.12em] text-muted-foreground/90">
                     {video.channelName}
                   </p>
                 ) : null}
@@ -329,12 +329,15 @@ const PortfolioContent = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: motionEase }}
-          className="columns-1 sm:columns-2 lg:columns-3 gap-3 sm:gap-4 md:gap-5"
+          className="columns-1 ms:columns-2 md:columns-2 lg:columns-3 xl:columns-3 2xl:columns-3 gap-3 sm:gap-4 md:gap-5 xl:gap-6"
         >
           {galleryItems.map((item, index) => (
             (() => {
               const dims = galleryImageDims[item.id];
               const aspectRatio = dims ? dims.width / dims.height : 1.2;
+              const displayedAspectRatio = Math.min(aspectRatio, 2.1);
+              const isLandscapeCard = aspectRatio >= 1.35;
+              const isUltraLandscapeCard = aspectRatio >= 1.8;
 
               return (
                 <motion.article
@@ -344,12 +347,12 @@ const PortfolioContent = () => {
                   variants={cardReveal}
                   custom={index}
                   key={item.id}
-                  className="group mb-3 break-inside-avoid sm:mb-4 md:mb-5 [perspective:1400px]"
+                  className="group mb-3 break-inside-avoid ms:mb-4 md:mb-5 xl:mb-6 [perspective:1400px]"
                 >
                   <div
                     className="relative h-auto rounded-[16px] sm:rounded-[20px] border border-border/55 transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-hover:-translate-y-1 group-hover:border-border/80 group-hover:shadow-[0_20px_32px_rgba(0,0,0,0.3)]"
                     style={{
-                      aspectRatio: `${aspectRatio} / 1`,
+                      aspectRatio: `${displayedAspectRatio} / 1`,
                     }}
                   >
                     <div className="absolute inset-0 overflow-hidden rounded-[16px] sm:rounded-[20px] [backface-visibility:hidden] bg-card/18">
@@ -365,21 +368,37 @@ const PortfolioContent = () => {
                               return { ...current, [item.id]: { width, height } };
                             });
                           }}
-                          className="h-full w-full object-cover group-hover:scale-[1.08]"
+                          className={`h-full w-full transition-transform duration-500 ${
+                            isLandscapeCard
+                              ? "object-contain bg-black/35 p-1 sm:p-1.5 group-hover:scale-[1.01]"
+                              : "object-cover group-hover:scale-[1.08]"
+                          }`}
                         />
                       </div>
                     </div>
 
-                    <div className="absolute inset-0 rounded-[16px] sm:rounded-[20px] border border-border/65 bg-[linear-gradient(150deg,rgba(0,0,0,0.78),rgba(17,17,17,0.94))] p-4 sm:p-5 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-between">
-                      <div>
-                        <p className="inline-flex rounded-full border border-border/60 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    <div
+                      className={`absolute inset-0 min-w-0 overflow-hidden rounded-[16px] sm:rounded-[20px] border border-border/65 bg-[linear-gradient(150deg,rgba(0,0,0,0.78),rgba(17,17,17,0.94))] [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col justify-between ${
+                        isLandscapeCard ? "p-3 sm:p-4" : "p-4 sm:p-5"
+                      }`}
+                    >
+                      <div className="min-w-0 min-h-0 overflow-hidden">
+                        <p className="inline-flex max-w-full rounded-full border border-border/60 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                           Gallery Detail
                         </p>
-                        <h4 className="mt-3 text-foreground text-[20px] sm:text-[22px] leading-[1.05] tracking-[-0.03em] font-bold">
+                        <h4
+                          className={`mt-2.5 sm:mt-3 text-foreground leading-[1.08] tracking-[-0.02em] font-bold break-words overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] ${
+                            isUltraLandscapeCard
+                              ? "text-[16px] sm:text-[18px] [-webkit-line-clamp:2]"
+                              : isLandscapeCard
+                                ? "text-[18px] sm:text-[20px] [-webkit-line-clamp:2]"
+                                : "text-[20px] sm:text-[22px] [-webkit-line-clamp:3]"
+                          }`}
+                        >
                           {item.title}
                         </h4>
                       </div>
-                      <div>
+                      <div className="shrink-0 pt-2 sm:pt-2.5">
                         <p className="text-[12px] uppercase tracking-[0.14em] text-muted-foreground">Year</p>
                         <p className="mt-1 text-[16px] sm:text-[18px] text-foreground font-semibold">{item.year}</p>
                       </div>
@@ -455,7 +474,7 @@ const PortfolioContent = () => {
               <div className="mt-3 grid grid-cols-1 gap-2.5 text-[14px] md:text-[15px]">
                 <a
                   href="mailto:abirmediagroup@gmail.com"
-                  className="rounded-[12px] border border-white/20 bg-white/[0.04] px-3.5 py-3 text-white transition-colors hover:border-white/45 hover:bg-white/[0.1]"
+                  className="rounded-[12px] border border-white/20 bg-white/[0.04] px-3.5 py-3 text-white transition-colors hover:border-white/45 hover:bg-white/[0.1] break-words"
                 >
                   abirmediagroup@gmail.com
                 </a>
