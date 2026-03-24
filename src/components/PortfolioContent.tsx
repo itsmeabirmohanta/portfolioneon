@@ -329,7 +329,7 @@ const PortfolioContent = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: motionEase }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5"
+          className="columns-1 sm:columns-2 lg:columns-3 gap-3 sm:gap-4 md:gap-5"
         >
           {galleryItems.map((item, index) => (
             (() => {
@@ -344,7 +344,7 @@ const PortfolioContent = () => {
                   variants={cardReveal}
                   custom={index}
                   key={item.id}
-                  className="group [perspective:1400px]"
+                  className="group mb-3 break-inside-avoid sm:mb-4 md:mb-5 [perspective:1400px]"
                 >
                   <div
                     className="relative h-auto rounded-[16px] sm:rounded-[20px] border border-border/55 transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-hover:-translate-y-1 group-hover:border-border/80 group-hover:shadow-[0_20px_32px_rgba(0,0,0,0.3)]"
