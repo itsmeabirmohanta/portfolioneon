@@ -142,77 +142,225 @@ const PortfolioContent = () => {
         style={{ y: featuredParallaxY }}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.16 }}
+        viewport={{ once: true, amount: 0.12 }}
         variants={sectionReveal}
         className="relative mx-auto w-full max-w-[1240px] px-4 sm:px-6 md:px-10 lg:px-12 pt-10 sm:pt-12 md:pt-16 lg:pt-20 overflow-hidden scroll-mt-20"
       >
+        {/* Ambient glows */}
         <motion.div
           style={{ y: featuredGlowLeftY }}
-          className="pointer-events-none absolute -left-20 top-20 h-48 w-48 rounded-full bg-accent/10 blur-3xl animate-pulse-soft"
+          className="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-accent/8 blur-3xl animate-pulse-soft"
         />
         <motion.div
           style={{ y: featuredGlowRightY }}
-          className="pointer-events-none absolute -right-16 top-1/3 h-56 w-56 rounded-full bg-secondary/40 blur-3xl animate-drift-y"
+          className="pointer-events-none absolute -right-16 top-1/3 h-72 w-72 rounded-full bg-secondary/35 blur-3xl animate-drift-y"
         />
-        <SectionTitle label="Featured work" />
 
+        {/* Header row */}
+        <div className="mb-8 sm:mb-10 md:mb-12 flex items-end justify-between gap-4">
+          <SectionTitle label="Featured work" />
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3, ease: motionEase }}
+            className="hidden sm:block shrink-0 text-[11px] uppercase tracking-[0.2em] text-muted-foreground/70 pb-1"
+          >
+            {featuredProjects.length > 0
+              ? `${featuredProjects.length} project${featuredProjects.length !== 1 ? "s" : ""}`
+              : null}
+          </motion.p>
+        </div>
+
+        {/* Skeleton loaders */}
         {isFeaturedLoading ? (
-          <p className="mb-6 text-sm text-muted-foreground">Loading featured projects...</p>
+          <div className="space-y-4 md:space-y-5">
+            {/* Hero skeleton */}
+            <div className="relative overflow-hidden rounded-[22px] sm:rounded-[26px] border border-border/40 bg-card/15 h-[420px] sm:h-[500px] md:h-[560px]">
+              <div className="absolute inset-0 animate-skeleton-shimmer" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-10 space-y-3">
+                <div className="h-3 w-28 rounded-full bg-white/10" />
+                <div className="h-8 sm:h-10 w-3/4 rounded-lg bg-white/10" />
+                <div className="h-4 w-1/2 rounded-md bg-white/8" />
+              </div>
+            </div>
+            {/* Grid skeletons */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+              {[0, 1].map((i) => (
+                <div key={i} className="relative overflow-hidden rounded-[20px] border border-border/40 bg-card/15 h-[260px] sm:h-[300px]">
+                  <div className="absolute inset-0 animate-skeleton-shimmer" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 space-y-2">
+                    <div className="h-3 w-20 rounded-full bg-white/10" />
+                    <div className="h-6 w-2/3 rounded-lg bg-white/10" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         ) : null}
+
         {isFeaturedError ? (
           <p className="mb-6 text-sm text-destructive">Unable to load featured projects right now.</p>
         ) : null}
 
-        <div className="grid gap-4 md:gap-5 lg:gap-6">
-          {featuredProjects.map((project, index) => (
+        {/* ── Projects layout ── */}
+        {featuredProjects.length > 0 && !isFeaturedLoading && (
+          <div className="space-y-3 sm:space-y-4 md:space-y-5">
+
+            {/* ── Hero card (first project) ── */}
             <motion.article
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.28 }}
+              viewport={{ once: true, amount: 0.15 }}
               variants={cardReveal}
-              custom={index}
-              key={project.id}
-              className="group relative grid gap-4 sm:gap-5 md:grid-cols-12 rounded-[20px] sm:rounded-[24px] border border-border/55 bg-card/18 p-4 sm:p-5 md:p-7 lg:p-8 transition-all duration-400 hover:-translate-y-1 hover:border-border/85 hover:bg-card/35 hover:shadow-[0_22px_42px_rgba(0,0,0,0.3)]"
+              custom={0}
+              key={featuredProjects[0].id}
+              className="group relative overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[28px] border border-white/10 bg-black cursor-pointer"
             >
-              <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.08),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-              <div className={`${index % 2 === 1 ? "md:col-span-7 md:order-2" : "md:col-span-7"} relative min-w-0`}>
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="rounded-full border border-border/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                    Featured Project
-                  </span>
-                  <span className="h-px flex-1 bg-border/60" />
-                </div>
-                <h3 className="text-foreground text-[22px] sm:text-[32px] md:text-[44px] lg:text-[50px] leading-[1] sm:leading-[0.95] md:leading-[0.9] tracking-[-0.047em] font-black break-words">
-                  {project.title}
-                </h3>
-                <p className="mt-2.5 sm:mt-3.5 text-muted-foreground text-[14px] sm:text-[16px] md:text-[20px] leading-[1.4] sm:leading-[1.36] md:leading-[1.32] max-w-[54ch] break-words">
-                  {project.description}
-                </p>
-                <div className="mt-5 flex flex-wrap items-center gap-2.5 text-[12px] sm:text-[13px] md:text-sm">
-                  <a
-                    href={project.prototypeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center text-center rounded-full border border-border/70 px-3.5 py-1.5 text-muted-foreground transition-colors hover:border-foreground/60 hover:text-foreground"
-                  >
-                    View prototype
-                  </a>
-                </div>
+              {/* Full-bleed image */}
+              <div className="relative h-[380px] xs:h-[420px] sm:h-[480px] md:h-[540px] lg:h-[580px] w-full overflow-hidden">
+                <SkeletonImage
+                  src={featuredProjects[0].image}
+                  alt={featuredProjects[0].title}
+                  priority
+                  className="w-full h-full object-cover transition-transform duration-700 will-change-transform group-hover:scale-[1.03]"
+                />
+                {/* Multi-stop scrim: heavy at top AND bottom so image text never competes */}
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.12)_35%,rgba(0,0,0,0.18)_55%,rgba(0,0,0,0.88)_100%)]" />
+                {/* Hover shimmer */}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,255,255,0.06),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
 
-              <div className={`${index % 2 === 1 ? "md:col-span-5 md:order-1" : "md:col-span-5"} project-media relative rounded-[16px] sm:rounded-[18px] overflow-hidden border border-border/60 h-[200px] sm:h-[240px] md:h-[280px] lg:h-[300px]`}>
-                <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/35 via-transparent to-transparent" />
-                <SkeletonImage
-                  src={project.image}
-                  alt={project.title}
-                  priority={index === 0}
-                  className="w-full h-full object-cover group-hover:scale-105"
-                />
+              {/* Content overlay – sits on top of the image div */}
+              <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10">
+                {/* Top row: index + badge */}
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-black/70 border border-white/15 text-[9px] sm:text-[10px] font-bold text-white/90 backdrop-blur-md">
+                    01
+                  </span>
+                  <span className="rounded-full bg-black/70 border border-white/15 px-2.5 py-[3px] text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur-md">
+                    Featured
+                  </span>
+                </div>
+
+                {/* Bottom: title + desc + CTAs */}
+                <div>
+                  <h3 className="text-white text-[24px] xs:text-[28px] sm:text-[36px] md:text-[46px] lg:text-[54px] leading-[1.02] tracking-[-0.04em] font-black max-w-[20ch] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                    {featuredProjects[0].title}
+                  </h3>
+                  <p className="mt-2 sm:mt-3 text-white/75 text-[12px] sm:text-[14px] md:text-[16px] leading-[1.5] max-w-[48ch] line-clamp-3 sm:line-clamp-none drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+                    {featuredProjects[0].description}
+                  </p>
+
+                  {/* CTAs */}
+                  <div className="mt-4 sm:mt-5 flex flex-wrap items-center gap-2 sm:gap-2.5">
+                    <a
+                      href={featuredProjects[0].prototypeUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex min-h-[36px] sm:min-h-[38px] items-center gap-1.5 rounded-full border border-white/90 bg-white px-4 sm:px-5 py-2 text-[12px] sm:text-[13px] font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 active:scale-95 hover:shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                    >
+                      View prototype
+                      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                        <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                    {featuredProjects[0].caseStudyUrl ? (
+                      <a
+                        href={featuredProjects[0].caseStudyUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex min-h-[36px] sm:min-h-[38px] items-center gap-1.5 rounded-full border border-white/30 bg-black/50 px-4 sm:px-5 py-2 text-[12px] sm:text-[13px] text-white/90 backdrop-blur-sm transition-colors active:scale-95 hover:border-white/55 hover:bg-black/65 hover:text-white"
+                      >
+                        Case study
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </motion.article>
-          ))}
-        </div>
+
+            {/* ── Bento grid (remaining projects) ── */}
+            {featuredProjects.length > 1 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
+                {featuredProjects.slice(1).map((project, i) => {
+                  const displayIndex = i + 2;
+                  const indexLabel = String(displayIndex).padStart(2, "0");
+                  return (
+                    <motion.article
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, amount: 0.18 }}
+                      variants={cardReveal}
+                      custom={displayIndex}
+                      key={project.id}
+                      className="group relative overflow-hidden rounded-[18px] sm:rounded-[22px] md:rounded-[24px] border border-white/10 bg-black cursor-pointer transition-all duration-400 hover:-translate-y-[3px] hover:border-white/20 hover:shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
+                    >
+                      {/* Image */}
+                      <div className="relative h-[280px] sm:h-[300px] md:h-[320px] w-full overflow-hidden">
+                        <SkeletonImage
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-[1.05]"
+                        />
+                        {/* Strong multi-stop scrim for legibility */}
+                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.50)_0%,rgba(0,0,0,0.08)_30%,rgba(0,0,0,0.15)_55%,rgba(0,0,0,0.92)_100%)]" />
+                        {/* Hover shimmer */}
+                        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,255,255,0.05),transparent_52%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                        {/* Index badge */}
+                        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5">
+                          <span className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full bg-black/75 border border-white/15 text-[8px] sm:text-[9px] font-bold text-white/85 backdrop-blur-md">
+                            {indexLabel}
+                          </span>
+                          <span className="rounded-full bg-black/70 border border-white/12 px-2 py-[2px] text-[8px] sm:text-[9px] uppercase tracking-[0.15em] text-white/70 backdrop-blur-md">
+                            Featured
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Text content pinned to bottom */}
+                      <div className="absolute bottom-0 left-0 right-0 px-4 py-4 sm:px-5 sm:py-5 md:px-6 md:py-5">
+                        <h3 className="text-white text-[18px] sm:text-[20px] md:text-[22px] leading-[1.1] tracking-[-0.025em] font-black drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+                          {project.title}
+                        </h3>
+                        <p className="mt-1 text-white/65 text-[11px] sm:text-[12px] leading-[1.45] line-clamp-2 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                          {project.description}
+                        </p>
+
+                        {/* CTAs */}
+                        <div className="mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
+                          <a
+                            href={project.prototypeUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-white/75 bg-white px-3 sm:px-3.5 py-1.5 text-[10px] sm:text-[11px] font-semibold text-black transition-all duration-300 active:scale-95 hover:bg-white/90 hover:shadow-[0_6px_16px_rgba(0,0,0,0.5)]"
+                          >
+                            Prototype
+                            <svg viewBox="0 0 16 16" className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                              <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </a>
+                          {project.caseStudyUrl ? (
+                            <a
+                              href={project.caseStudyUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex min-h-[32px] items-center rounded-full border border-white/20 bg-black/55 px-3 sm:px-3.5 py-1.5 text-[10px] sm:text-[11px] text-white/80 backdrop-blur-sm transition-colors active:scale-95 hover:border-white/38 hover:bg-black/70 hover:text-white"
+                            >
+                              Case study
+                            </a>
+                          ) : null}
+                        </div>
+                      </div>
+                    </motion.article>
+                  );
+                })}
+              </div>
+            )}
+
+          </div>
+        )}
       </motion.section>
 
       <motion.section
