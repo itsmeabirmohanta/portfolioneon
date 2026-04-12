@@ -156,42 +156,35 @@ const PortfolioContent = () => {
           className="pointer-events-none absolute -right-16 top-1/3 h-72 w-72 rounded-full bg-secondary/35 blur-3xl animate-drift-y"
         />
 
-        {/* Header row */}
-        <div className="mb-8 sm:mb-10 md:mb-12 flex items-end justify-between gap-4">
-          <SectionTitle label="Featured work" />
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3, ease: motionEase }}
-            className="hidden sm:block shrink-0 text-[11px] uppercase tracking-[0.2em] text-muted-foreground/70 pb-1"
-          >
-            {featuredProjects.length > 0
-              ? `${featuredProjects.length} project${featuredProjects.length !== 1 ? "s" : ""}`
-              : null}
-          </motion.p>
-        </div>
+        {/* Header */}
+        <SectionTitle label="Featured work" />
 
         {/* Skeleton loaders */}
         {isFeaturedLoading ? (
           <div className="space-y-4 md:space-y-5">
             {/* Hero skeleton */}
-            <div className="relative overflow-hidden rounded-[22px] sm:rounded-[26px] border border-border/40 bg-card/15 h-[420px] sm:h-[500px] md:h-[560px]">
-              <div className="absolute inset-0 animate-skeleton-shimmer" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-10 space-y-3">
+            <div className="relative overflow-hidden flex flex-col md:flex-row rounded-[22px] sm:rounded-[26px] border border-white/10 bg-[#0a0a0a] min-h-[420px] md:h-[480px]">
+              <div className="w-full md:w-3/5 lg:w-[66%] h-[280px] md:h-full relative bg-secondary/20">
+                <div className="absolute inset-0 animate-skeleton-shimmer" />
+              </div>
+              <div className="w-full md:w-2/5 lg:w-[34%] p-6 sm:p-8 md:p-10 flex flex-col justify-center space-y-4">
                 <div className="h-3 w-28 rounded-full bg-white/10" />
                 <div className="h-8 sm:h-10 w-3/4 rounded-lg bg-white/10" />
-                <div className="h-4 w-1/2 rounded-md bg-white/8" />
+                <div className="h-4 w-full rounded-md bg-white/8" />
+                <div className="h-4 w-2/3 rounded-md bg-white/8" />
               </div>
             </div>
             {/* Grid skeletons */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
               {[0, 1].map((i) => (
-                <div key={i} className="relative overflow-hidden rounded-[20px] border border-border/40 bg-card/15 h-[260px] sm:h-[300px]">
-                  <div className="absolute inset-0 animate-skeleton-shimmer" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 space-y-2">
-                    <div className="h-3 w-20 rounded-full bg-white/10" />
-                    <div className="h-6 w-2/3 rounded-lg bg-white/10" />
+                <div key={i} className="relative flex flex-col overflow-hidden rounded-[20px] border border-white/10 bg-[#0a0a0a]">
+                  <div className="w-full h-[220px] sm:h-[240px] relative bg-secondary/20">
+                    <div className="absolute inset-0 animate-skeleton-shimmer" />
+                  </div>
+                  <div className="p-5 flex flex-col space-y-3">
+                    <div className="h-5 w-2/3 rounded-md bg-white/10" />
+                    <div className="h-3 w-full rounded-sm bg-white/5" />
+                    <div className="h-3 w-3/4 rounded-sm bg-white/5" />
                   </div>
                 </div>
               ))}
@@ -215,26 +208,23 @@ const PortfolioContent = () => {
               variants={cardReveal}
               custom={0}
               key={featuredProjects[0].id}
-              className="group relative overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[28px] border border-white/10 bg-black cursor-pointer"
+              className="group flex flex-col md:flex-row overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[28px] border border-white/10 bg-[#0a0a0a] transition-all duration-500 hover:border-white/20 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)]"
             >
-              {/* Full-bleed image */}
-              <div className="relative h-[380px] xs:h-[420px] sm:h-[480px] md:h-[540px] lg:h-[580px] w-full overflow-hidden">
+              {/* Image half */}
+              <div className="relative w-full md:w-[60%] lg:w-[66%] h-[280px] sm:h-[360px] md:h-auto overflow-hidden">
                 <SkeletonImage
                   src={featuredProjects[0].image}
                   alt={featuredProjects[0].title}
                   priority
                   className="w-full h-full object-cover transition-transform duration-700 will-change-transform group-hover:scale-[1.03]"
                 />
-                {/* Multi-stop scrim: heavy at top AND bottom so image text never competes */}
-                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.12)_35%,rgba(0,0,0,0.18)_55%,rgba(0,0,0,0.88)_100%)]" />
+                {/* Light scrim for just the top badge instead of heavy overlay */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent h-1/3" />
                 {/* Hover shimmer */}
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,255,255,0.06),transparent_55%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              </div>
-
-              {/* Content overlay – sits on top of the image div */}
-              <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10">
-                {/* Top row: index + badge */}
-                <div className="flex items-center gap-2">
+                
+                {/* Index + badge pinned to top-left of image */}
+                <div className="absolute top-4 left-4 sm:top-5 sm:left-5 md:top-6 md:left-6 flex items-center gap-2">
                   <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-black/70 border border-white/15 text-[9px] sm:text-[10px] font-bold text-white/90 backdrop-blur-md">
                     01
                   </span>
@@ -242,40 +232,43 @@ const PortfolioContent = () => {
                     Featured
                   </span>
                 </div>
+              </div>
 
-                {/* Bottom: title + desc + CTAs */}
-                <div>
-                  <h3 className="text-white text-[24px] xs:text-[28px] sm:text-[36px] md:text-[46px] lg:text-[54px] leading-[1.02] tracking-[-0.04em] font-black max-w-[20ch] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                    {featuredProjects[0].title}
-                  </h3>
-                  <p className="mt-2 sm:mt-3 text-white/75 text-[12px] sm:text-[14px] md:text-[16px] leading-[1.5] max-w-[48ch] line-clamp-3 sm:line-clamp-none drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-                    {featuredProjects[0].description}
-                  </p>
+              {/* Text half */}
+              <div className="w-full md:w-[40%] lg:w-[34%] flex flex-col justify-center p-6 sm:p-8 md:p-8 lg:p-10 xl:p-12 border-t md:border-t-0 md:border-l border-white/10 bg-[#0d0d0d] relative">
+                {/* Soft glow in corner */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl rounded-full pointer-events-none" />
+                
+                <h3 className="text-white text-[24px] xs:text-[28px] sm:text-[32px] lg:text-[40px] leading-[1.05] tracking-[-0.03em] font-black">
+                  {featuredProjects[0].title}
+                </h3>
+                <p className="mt-3 sm:mt-4 text-white/65 text-[13px] sm:text-[14px] lg:text-[15px] leading-[1.6] line-clamp-4">
+                  {featuredProjects[0].description}
+                </p>
 
-                  {/* CTAs */}
-                  <div className="mt-4 sm:mt-5 flex flex-wrap items-center gap-2 sm:gap-2.5">
+                {/* CTAs */}
+                <div className="mt-5 sm:mt-6 lg:mt-8 flex flex-wrap items-center gap-2.5">
+                  <a
+                    href={featuredProjects[0].prototypeUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex min-h-[38px] lg:min-h-[42px] items-center gap-1.5 rounded-full border border-white/90 bg-white px-4 sm:px-5 py-2 text-[13px] lg:text-[14px] font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 active:scale-95 hover:shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                  >
+                    View prototype
+                    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </a>
+                  {featuredProjects[0].caseStudyUrl ? (
                     <a
-                      href={featuredProjects[0].prototypeUrl}
+                      href={featuredProjects[0].caseStudyUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex min-h-[36px] sm:min-h-[38px] items-center gap-1.5 rounded-full border border-white/90 bg-white px-4 sm:px-5 py-2 text-[12px] sm:text-[13px] font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 active:scale-95 hover:shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                      className="inline-flex min-h-[38px] lg:min-h-[42px] items-center gap-1.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 px-4 sm:px-5 py-2 text-[13px] lg:text-[14px] font-medium text-white transition-colors active:scale-95"
                     >
-                      View prototype
-                      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      Case study
                     </a>
-                    {featuredProjects[0].caseStudyUrl ? (
-                      <a
-                        href={featuredProjects[0].caseStudyUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex min-h-[36px] sm:min-h-[38px] items-center gap-1.5 rounded-full border border-white/30 bg-black/50 px-4 sm:px-5 py-2 text-[12px] sm:text-[13px] text-white/90 backdrop-blur-sm transition-colors active:scale-95 hover:border-white/55 hover:bg-black/65 hover:text-white"
-                      >
-                        Case study
-                      </a>
-                    ) : null}
-                  </div>
+                  ) : null}
                 </div>
               </div>
             </motion.article>
@@ -294,21 +287,21 @@ const PortfolioContent = () => {
                       variants={cardReveal}
                       custom={displayIndex}
                       key={project.id}
-                      className="group relative overflow-hidden rounded-[18px] sm:rounded-[22px] md:rounded-[24px] border border-white/10 bg-black cursor-pointer transition-all duration-400 hover:-translate-y-[3px] hover:border-white/20 hover:shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
+                      className="group flex flex-col overflow-hidden rounded-[18px] sm:rounded-[22px] md:rounded-[24px] border border-white/10 bg-[#0a0a0a] transition-all duration-400 hover:-translate-y-[3px] hover:border-white/20 hover:shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
                     >
-                      {/* Image */}
-                      <div className="relative h-[280px] sm:h-[300px] md:h-[320px] w-full overflow-hidden">
+                      {/* Image Top Half */}
+                      <div className="relative h-[200px] sm:h-[220px] md:h-[250px] w-full overflow-hidden border-b border-white/5">
                         <SkeletonImage
                           src={project.image}
                           alt={project.title}
                           className="w-full h-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-[1.05]"
                         />
-                        {/* Strong multi-stop scrim for legibility */}
-                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.50)_0%,rgba(0,0,0,0.08)_30%,rgba(0,0,0,0.15)_55%,rgba(0,0,0,0.92)_100%)]" />
+                        {/* Light scrim for just the top badge visibility */}
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent h-1/2" />
                         {/* Hover shimmer */}
                         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,255,255,0.05),transparent_52%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-                        {/* Index badge */}
+                        {/* Index badge pinned to top */}
                         <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex items-center gap-1.5">
                           <span className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full bg-black/75 border border-white/15 text-[8px] sm:text-[9px] font-bold text-white/85 backdrop-blur-md">
                             {indexLabel}
@@ -319,38 +312,42 @@ const PortfolioContent = () => {
                         </div>
                       </div>
 
-                      {/* Text content pinned to bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 px-4 py-4 sm:px-5 sm:py-5 md:px-6 md:py-5">
-                        <h3 className="text-white text-[18px] sm:text-[20px] md:text-[22px] leading-[1.1] tracking-[-0.025em] font-black drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+                      {/* Text Bottom Half */}
+                      <div className="flex flex-col flex-1 p-4 sm:p-5 md:p-6 bg-[#0d0d0d] relative">
+                        {/* Soft subtle highlight layer on hover */}
+                        <div className="absolute inset-0 bg-white/[0.02] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
+                        
+                        <h3 className="text-white text-[19px] sm:text-[21px] md:text-[23px] leading-[1.1] tracking-[-0.025em] font-black z-10">
                           {project.title}
                         </h3>
-                        <p className="mt-1 text-white/65 text-[11px] sm:text-[12px] leading-[1.45] line-clamp-2 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                        <p className="mt-1.5 sm:mt-2 text-white/60 text-[12px] sm:text-[13px] leading-[1.5] line-clamp-2 z-10">
                           {project.description}
                         </p>
 
-                        {/* CTAs */}
-                        <div className="mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                          <a
-                            href={project.prototypeUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex min-h-[32px] items-center gap-1 rounded-full border border-white/75 bg-white px-3 sm:px-3.5 py-1.5 text-[10px] sm:text-[11px] font-semibold text-black transition-all duration-300 active:scale-95 hover:bg-white/90 hover:shadow-[0_6px_16px_rgba(0,0,0,0.5)]"
-                          >
-                            Prototype
-                            <svg viewBox="0 0 16 16" className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                              <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </a>
-                          {project.caseStudyUrl ? (
+                        <div className="mt-auto pt-4 sm:pt-5 z-10">
+                          <div className="flex flex-wrap items-center gap-2">
                             <a
-                              href={project.caseStudyUrl}
+                              href={project.prototypeUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex min-h-[32px] items-center rounded-full border border-white/20 bg-black/55 px-3 sm:px-3.5 py-1.5 text-[10px] sm:text-[11px] text-white/80 backdrop-blur-sm transition-colors active:scale-95 hover:border-white/38 hover:bg-black/70 hover:text-white"
+                              className="inline-flex min-h-[32px] sm:min-h-[34px] items-center gap-1 rounded-full border border-white/75 bg-white px-3.5 py-1.5 text-[11px] sm:text-[12px] font-medium text-black transition-all duration-300 active:scale-95 hover:bg-white/90 hover:shadow-[0_6px_16px_rgba(0,0,0,0.5)]"
                             >
-                              Case study
+                              Prototype
+                              <svg viewBox="0 0 16 16" className="h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                                <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
                             </a>
-                          ) : null}
+                            {project.caseStudyUrl ? (
+                              <a
+                                href={project.caseStudyUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex min-h-[32px] sm:min-h-[34px] items-center rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[11px] sm:text-[12px] text-white transition-colors active:scale-95 hover:bg-white/10 hover:border-white/20"
+                              >
+                                Case study
+                              </a>
+                            ) : null}
+                          </div>
                         </div>
                       </div>
                     </motion.article>
